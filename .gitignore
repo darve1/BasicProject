@@ -51,6 +51,9 @@ next-env.d.ts
 # 아티팩트 미리보기 결과물
 /.artifact/
 
+# hallmark 디자인 검사 기록(전후 스크린샷·링크 기록)
+/.hallmark/
+
 # 디자인 도구의 캐시·선택 화면 상태 (디자인 기록 design.json, surfaces/ 는 올린다)
 /.impeccable/hook.cache.json
 /.impeccable/decision-payload.json

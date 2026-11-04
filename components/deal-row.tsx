@@ -12,14 +12,14 @@ export function DealRow({ deal, brands, owned, showType = false }: { deal: Deal;
   const reqs = (deal.deal_requirements ?? []).map((r) => r.brand_id);
   const soon = endsLabel(deal.ends_at);
   return (
-    <li data-category={deal.category} className={`group relative grid grid-cols-[minmax(0,1fr)_48px] gap-x-4 gap-y-1.5 border-b border-rule py-3.5 @2xl:items-center @2xl:gap-x-6 ${COLS} hover:bg-paper`}>
+    <li data-category={deal.category} className={`group relative grid grid-cols-[minmax(0,1fr)_52px] gap-x-4 gap-y-1.5 border-b border-rule py-3.5 @2xl:items-center @2xl:gap-x-6 ${COLS} hover:bg-paper`}>
       <div className="col-start-1 row-start-1 min-w-0">
         <Link href={`/deal/${deal.id}`} className="font-semibold after:absolute after:inset-0 group-hover:underline">
           {deal.title}
         </Link>
         {deal.benefit_text && <p className="mt-0.5 line-clamp-2 text-sm text-ink-2">{deal.benefit_text}</p>}
         <p className="mt-0.5 text-sm text-ink-3">
-          {showType && `${DEAL_TYPE_LABEL[deal.deal_type]} · `}
+          {showType && `${DEAL_TYPE_LABEL[deal.deal_type]}, `}
           {DEAL_CATEGORY_LABEL[deal.category]}
         </p>
       </div>

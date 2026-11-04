@@ -1,14 +1,29 @@
+/* Hallmark · shape: app screen · genre: editorial (inferred) · theme: brand (DESIGN.md, locked) · redesign: full
+ * paper: #f6f7f4 · accent: #2453bd saving blue, #c4313a correction red · display: Pretendard Variable · body: Pretendard Variable
+ * nav: kept (top bar, sub menu, phone tabs) · signature: the open ledger, choices on the left page and the live statement with a double-underlined total on the right · states: hover, focus, active, disabled, pending, empty
+ * axes: light/grotesk-sans/cool · posture: restrained, two pens and one seal · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V3 · weakest: V, the shell stays the project's own; the home now leads with one live statement instead of three copies of the same sum */
+/* Hallmark · dropped {r.href}, {calcHref}, {ex.total}, https://card.nonghyup.com/, #recs, #statement · the home 추천 list and the sample 정산표 merged into the live sheet; its rows keep each saving, the card row keeps the top card, and /lowest keeps all three cards, because the user said the home was cluttered */
+/* Hallmark · reworded "이번 달 추천 · 예시" to "가장 싼 조합" · 69 named the same sum printed three times on the home */
+/* Hallmark · reworded "예시 넷플릭스·티빙·웨이브 정산표" to "가장 싼 조합" · 69 named the sample statement repeating the calculator */
+/* Hallmark · reworded "조합 계산기" to "쓰는 구독" · the sheet's left page names what the visitor picks, the section keeps its 조합 계산기 label */
+/* Hallmark · reworded "이 조합에 맞는 카드" to "카드까지 쓰면" · the home sheet shows one card, the three-card list stays on /lowest under its old head */
+/* Hallmark · waive 49b · source names on /about wrap to two lines at 320px · they are the official list titles of each card and telecom page and shortening them would misname the source */
+/* Hallmark · dismissed F17 · the third line in the price cell is screen reader text; the cell paints two lines, the price and the saving */
+/* Hallmark · finish-review: subagent · 6 findings · 5 resolved 1 partial · gap: on a phone the picker still comes before the statement, so the total sits about one and a half screens down */
+/* Hallmark · dismissed F25 · on /lowest/ott the 누가 column hides on phones because the same who, eligibility and condition lines are repeated under each route name there */
 @import "tailwindcss";
 
 /* 가계부: 푸른 기 도는 장부지, 남색 잉크, 정정용 빨강, 절약용 파랑, 인주 도장 */
 :root {
   --paper: #f6f7f4;
-  --sheet: #ffffff;
+  --sheet: #fdfdfb;
   --ink: #1d2430;
   --ink-2: #444d5b;
   --ink-3: #5c6470;
   --rule: #dfe3dc;
   --rule-2: #c7cdc4;
+  --rule-field: #858c95;
   --red: #c4313a;
   --blue: #2453bd;
   --blue-wash: #e9eefb;
@@ -24,21 +39,29 @@
   --color-ink-3: var(--ink-3);
   --color-rule: var(--rule);
   --color-rule-2: var(--rule-2);
+  --color-rule-field: var(--rule-field);
   --color-red: var(--red);
   --color-blue: var(--blue);
   --color-blue-wash: var(--blue-wash);
   --color-red-wash: var(--red-wash);
   --color-seal: var(--seal);
   --font-sans: var(--font-pretendard), system-ui, sans-serif;
-  /* 글자 크기는 세 단계 + 숫자용 하나 */
-  --text-sm: 0.8125rem;
+  /* 글자 크기는 세 단계 + 숫자 둘(합계 한 곳만 total) */
+  --text-sm: 0.875rem;
   --text-sm--line-height: 1.45;
-  --text-base: 0.9375rem;
+  --text-base: 1rem;
   --text-base--line-height: 1.55;
   --text-lg: 1.25rem;
   --text-lg--line-height: 1.35;
   --text-num: 1.75rem;
   --text-num--line-height: 1.15;
+  --text-total: 2.5rem;
+  --text-total--line-height: 1.05;
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 html {
@@ -56,6 +79,9 @@ body {
   font-feature-settings: "tnum" 1;
   caret-color: var(--blue);
   -webkit-font-smoothing: antialiased;
+  /* 한국어는 어절 단위로 줄을 바꾼다. 긴 영문·주소만 필요할 때 끊는다 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 ::selection {
@@ -74,7 +100,17 @@ a {
   text-decoration-thickness: 1px;
 }
 
-/* 정가 정정선: 빨간 펜으로 두 번 긋지 않고 한 번, 약간 기울여 */
+/* 누르는 순간 한 칸 내려앉는다. 움직임이 아니라 상태라 동작 줄이기와 상관없다 */
+button:not(:disabled):active,
+.press:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* 정가 정정선: 빨간 펜으로 두 번 긋지 않고 한 번 */
 .strike-red {
   text-decoration: line-through;
   text-decoration-color: var(--red);
@@ -92,12 +128,10 @@ a {
   0% {
     transform: rotate(-8deg) scale(1.35);
     opacity: 0;
-    filter: blur(1px);
   }
   60% {
     transform: rotate(-8deg) scale(0.96);
     opacity: 1;
-    filter: blur(0);
   }
   100% {
     transform: rotate(-8deg) scale(1);

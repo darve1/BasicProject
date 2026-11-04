@@ -29,9 +29,9 @@ export function AboutView({ sources }: { sources: Source[] }) {
             </li>
             <li className="grid items-center gap-4 border-b border-rule py-4 sm:grid-cols-[90px_1fr]">
               <span className="flex items-center gap-3">
-                <Seal trust="press" checkedAt={today} needsCheck />
+                <Seal trust="platform" checkedAt={today} needsCheck />
               </span>
-              <p className="text-ink-2">보도·플랫폼 출처이거나, 달러 결제라 환율에 따라 금액이 달라지거나, 공식 페이지가 바뀐 것을 감지한 값. 가입 전 원문을 꼭 확인하세요.</p>
+              <p className="text-ink-2">플랫폼 출처이거나, 달러 결제라 환율에 따라 금액이 달라지거나, 공식 페이지가 바뀐 것을 감지한 값. 가입 전 원문을 꼭 확인하세요. 뉴스 기사는 근거로 쓰지 않아요.</p>
             </li>
           </ul>
         </section>
@@ -73,7 +73,16 @@ export function AboutView({ sources }: { sources: Source[] }) {
                     <span className={`font-semibold ${s.mode === "crawl" ? "text-blue" : "text-ink-2"}`}>{s.mode === "crawl" ? "자동 수집" : "수동 등록"}</span>
                     {s.last_status && STATUS[s.last_status] && s.last_status !== "ok" && <p className="text-ink-3">{STATUS[s.last_status]}</p>}
                   </td>
-                  <td className="py-3 text-right whitespace-nowrap tabular-nums">{s.last_run_at ? `${s.last_run_at.slice(0, 10)} · ${s.last_count ?? 0}건` : "아직 없음"}</td>
+                  <td className="py-3 text-right whitespace-nowrap tabular-nums">
+                    {s.last_run_at ? (
+                      <>
+                        <span className="block">{s.last_run_at.slice(0, 10)}</span>
+                        <span className="block text-ink-3">{s.last_count ?? 0}건</span>
+                      </>
+                    ) : (
+                      "아직 없음"
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

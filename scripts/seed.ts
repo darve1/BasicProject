@@ -38,6 +38,15 @@ const rows = SEED_DEALS.map((d) => {
 await saveDeals(db, rows);
 console.log(`seed deals: ${rows.length}`);
 
+// 시드에서 뺀 수동 딜은 내린다 (자동 수집 소스의 딜은 크롤러가 관리한다)
+for (const s of sources.filter((x) => x.mode !== "crawl")) {
+  const keep = SEED_DEALS.filter((d) => d.source_id === s.id).map((d) => d.external_id);
+  let q = db.from("deals").update({ is_active: false }).eq("source_id", s.id).eq("is_active", true);
+  if (keep.length) q = q.not("external_id", "in", `(${keep.join(",")})`);
+  const { data } = await q.select("id");
+  if (data?.length) console.log(`${s.id}: 시드에서 뺀 딜 ${data.length}건 내림`);
+}
+
 for (const s of sources.filter((s) => s.mode === "seed")) {
   const count = rows.filter((r) => r.row.source_id === s.id).length;
   await db.from("sources").update({ last_run_at: now.toISOString(), last_status: "seed", last_count: count }).eq("id", s.id);

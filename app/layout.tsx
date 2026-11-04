@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const [viewer, brands, sources] = await Promise.all([getViewer(), getBrands(), getSources()]);
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className="min-h-dvh pb-16 md:pb-0">
+      <body className="flex min-h-dvh flex-col pb-16 md:pb-0">
         <SiteNav signedIn={Boolean(viewer.userId)} conditions={conditionLabels(viewer, brands)} signOut={signOut} />
         {children}
         <SiteFooter sources={sources} />

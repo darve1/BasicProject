@@ -58,5 +58,5 @@ export async function saveProfile(_: FormState, form: FormData): Promise<FormSta
     if (iErr) return { ok: false, message: "저장하지 못했어요. 다시 시도해 주세요." };
   }
   revalidatePath("/", "layout");
-  return { ok: true, message: "저장했어요. 홈의 추천과 할인 목록이 내 조건에 맞춰 바뀌었어요." };
+  return { ok: true, message: "저장했어요. 홈 정산표와 할인 목록이 내 조건에 맞춰 바뀌었어요." };
 }

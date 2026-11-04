@@ -41,7 +41,7 @@ export function ProfileForm({
   };
   const [telecom, setTelecom] = useState(brands.find((b) => b.kind === "telecom" && initial.brandIds.includes(b.id))?.id ?? "");
 
-  const box = "inline-flex cursor-pointer items-center gap-2 rounded-[4px] border border-rule-2 bg-sheet px-3 py-2 has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:font-bold has-[:checked]:text-sheet has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue";
+  const box = "inline-flex cursor-pointer items-center gap-2 rounded-[4px] border border-rule-field bg-sheet px-3 py-2 has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:font-bold has-[:checked]:text-sheet has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue";
 
   return (
     <form onSubmit={onSubmit} className="border-t-2 border-ink">

@@ -7,12 +7,12 @@ type SealProps = { trust: SourceTrust; checkedAt: string; needsCheck?: boolean }
 const pending = (p: SealProps) => p.needsCheck || freshness(p.checkedAt) === "expired";
 const sealTitle = (p: SealProps) =>
   pending(p)
-    ? `${TRUST_LABEL[p.trust]} 출처 · ${p.checkedAt.slice(0, 10)} 기준 · 공식 페이지에서 다시 확인 필요`
+    ? `${TRUST_LABEL[p.trust]} 출처, ${p.checkedAt.slice(0, 10)} 기준. 공식 페이지에서 다시 확인 필요`
     : `${TRUST_LABEL[p.trust]} 출처에서 ${p.checkedAt.slice(0, 10)}에 확인`;
 
-// 원형 확인 도장: 행·표에는 46px, 상세 화면에는 60px
+// 원형 확인 도장: 행·표에는 50px, 상세 화면에는 64px. 글자는 11px 아래로 내리지 않는다
 export function Seal({ size = "md", ...p }: SealProps & { size?: "sm" | "md" }) {
-  const dim = size === "sm" ? "h-[46px] w-[46px] text-[10px]" : "h-[60px] w-[60px] text-[11px]";
+  const dim = size === "sm" ? "h-[50px] w-[50px] text-[11px]" : "h-[64px] w-[64px] text-[12px]";
   if (pending(p)) {
     return (
       <span title={sealTitle(p)} className={`inline-grid shrink-0 place-items-center rounded-full border-2 border-dashed border-ink-3 text-center leading-tight font-bold text-ink-2 ${dim}`}>
@@ -35,11 +35,12 @@ export function Seal({ size = "md", ...p }: SealProps & { size?: "sm" | "md" }) 
 }
 
 // 정가를 빨간 펜으로 긋고 새 값을 파란 펜으로
-export function Correction({ from, to, unit = "", big = false }: { from: number | null; to: number; unit?: string; big?: boolean }) {
+// total: 화면의 주인공 합계 한 곳에만 (홈과 계산기의 월 합계)
+export function Correction({ from, to, unit = "", big = false, total = false }: { from: number | null; to: number; unit?: string; big?: boolean; total?: boolean }) {
   return (
-    <span className="inline-flex items-baseline gap-2 whitespace-nowrap tabular-nums">
-      {from != null && from > to && <span className="strike-red text-sm">{won(from)}</span>}
-      <span className={`font-bold text-blue ${big ? "text-num" : ""}`}>
+    <span className={`items-baseline whitespace-nowrap tabular-nums ${total ? "flex flex-wrap justify-end gap-x-3" : "inline-flex gap-2"}`}>
+      {from != null && from > to && <span className={`strike-red ${total ? "text-lg font-semibold" : "text-sm"}`}>{won(from)}</span>}
+      <span className={`font-bold text-blue ${total ? "text-[2rem] leading-[1.05] tracking-[-0.02em] sm:text-total" : big ? "text-num" : ""}`}>
         {unit}
         {won(to)}
       </span>

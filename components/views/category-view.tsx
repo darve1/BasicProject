@@ -59,25 +59,34 @@ export function CategoryView({ category: cat, calc }: { category: ServiceCategor
                     return (
                       <tr key={p.id} className={`border-b border-rule align-top ${ok ? "" : "text-ink-3"}`}>
                         <td className="py-3 pr-4">
-                          <a href={p.signup_url ?? p.source_url} target="_blank" rel="noreferrer" className={`font-semibold hover:underline ${isBest ? "text-blue" : ""}`}>
-                            {p.name}
-                            <span className="sr-only">(공식 페이지, 새 창)</span>
-                          </a>
-                          <p className="text-sm text-ink-3">
-                            {ROUTE_LABEL[p.route]} · {tier?.tier}
-                            {tier?.ads ? " · 광고 포함" : ""}
-                            {others.length > 0 && ` · 함께: ${others.join(", ")}`}
-                          </p>
-                          <p className="text-sm text-ink-3">근거: {sourceName(p.source_url, p.source_trust)}</p>
-                          <p className="mt-1 text-sm md:hidden">{who}</p>
-                          <span className="mt-1 inline-block lg:hidden">
-                            <Seal size="sm" trust={p.source_trust} checkedAt={p.checked_at} needsCheck={p.status === "needs_check"} />
-                          </span>
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <a href={p.signup_url ?? p.source_url} target="_blank" rel="noreferrer" className={`font-semibold hover:underline ${isBest ? "text-blue" : ""}`}>
+                                {p.name}
+                                <span className="sr-only">(공식 페이지, 새 창)</span>
+                              </a>
+                              <p className="text-sm text-ink-3">
+                                {ROUTE_LABEL[p.route]}, {tier?.tier}
+                                {tier?.ads ? ", 광고 포함" : ""}
+                              </p>
+                              {others.length > 0 && <p className="text-sm text-ink-3">함께: {others.join(", ")}</p>}
+                              <p className="text-sm text-ink-3">근거: {sourceName(p.source_url, p.source_trust)}</p>
+                              <p className="mt-1 text-sm md:hidden">
+                                {who}
+                                {p.eligibility.length > 0 && ", 자격 필요"}
+                                {p.billing === "annual" && ", 연간 결제"}
+                              </p>
+                              {p.conditions[0] && <p className="text-sm text-ink-3 md:hidden">{p.conditions[0]}</p>}
+                            </div>
+                            <span className="shrink-0 lg:hidden">
+                              <Seal size="sm" trust={p.source_trust} checkedAt={p.checked_at} needsCheck={p.status === "needs_check"} />
+                            </span>
+                          </div>
                         </td>
                         <td className="hidden py-3 pr-4 text-sm md:table-cell">
                           {who}
-                          {p.eligibility.length > 0 && " · 자격 필요"}
-                          {p.billing === "annual" && " · 연간 결제"}
+                          {p.eligibility.length > 0 && ", 자격 필요"}
+                          {p.billing === "annual" && ", 연간 결제"}
                           {p.conditions[0] && <span className="block text-ink-3">{p.conditions[0]}</span>}
                         </td>
                         <td className="hidden py-3 pr-4 lg:table-cell">

@@ -79,21 +79,22 @@ export function DealsView({
             key={q}
             defaultValue={q}
             placeholder="스타벅스, CGV, 넷플릭스"
-            className="w-full min-w-0 rounded-[4px] border border-rule-2 bg-sheet px-3 py-1.5 placeholder:text-ink-3 md:w-56"
+            className="w-full min-w-0 min-h-10 rounded-[4px] border border-rule-field bg-sheet px-3 placeholder:text-ink-3 md:w-56"
           />
           <label className="sr-only" htmlFor="sort">정렬</label>
-          <select id="sort" name="sort" key={sort} defaultValue={sort} className="rounded-[4px] border border-rule-2 bg-sheet px-2 py-1.5 text-sm">
+          <select id="sort" name="sort" key={sort} defaultValue={sort} className="min-h-10 rounded-[4px] border border-rule-field bg-sheet px-2 text-sm">
             <option value="ending">마감 순</option>
             <option value="new">새로 온 순</option>
           </select>
-          <button type="submit" className="rounded-[4px] bg-ink px-3.5 py-1.5 font-bold whitespace-nowrap text-sheet hover:bg-ink-2">
+          <button type="submit" className="min-h-10 rounded-[4px] bg-ink px-3.5 font-bold whitespace-nowrap text-sheet hover:bg-ink-2">
             찾기
           </button>
         </form>
       </div>
       {q && (
         <p className="mt-3 text-sm text-ink-2">
-          &lsquo;{q}&rsquo; 검색 결과 {all.length}건 · <Link href={href({ q: undefined })} className="underline">검색어 지우기</Link>
+          &lsquo;{q}&rsquo; 검색 결과 {all.length}건.{" "}
+          <Link href={href({ q: undefined })} className="ml-2 font-semibold text-blue hover:underline">검색어 지우기</Link>
         </p>
       )}
 
@@ -128,7 +129,7 @@ export function DealsView({
                   </a>
                   <span className="text-ink-2">
                     {s.mode === "crawl" ? "자동 수집" : "공식 페이지 확인 후 수동 등록"}
-                    {s.last_run_at && ` · ${s.last_run_at.slice(0, 10)} · ${s.last_count ?? 0}건`}
+                    {s.last_run_at && <span className="block text-ink-3 tabular-nums">{s.last_run_at.slice(0, 10)}에 {s.last_count ?? 0}건</span>}
                     {s.note && <span className="block text-ink-3">{s.note}</span>}
                   </span>
                 </li>

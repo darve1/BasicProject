@@ -16,7 +16,7 @@ export function LoginForm() {
         required
         autoComplete="email"
         placeholder="you@example.com"
-        className="w-full rounded-[4px] border border-rule-2 bg-sheet px-3 py-2.5 placeholder:text-ink-3"
+        className="w-full rounded-[4px] border border-rule-field bg-sheet px-3 py-2.5 placeholder:text-ink-3"
       />
       <button type="submit" disabled={pending} className="w-full rounded-[4px] bg-ink px-4 py-2.5 font-bold text-sheet hover:bg-ink-2 disabled:cursor-wait disabled:opacity-60">
         {pending ? "보내는 중…" : "로그인 링크 받기"}

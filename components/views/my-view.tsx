@@ -21,7 +21,7 @@ export function MyView({
     <Page width="narrow">
       <PageHead
         title="내 조건"
-        note={viewer.userId ? "쓰는 구독과 가진 것, 자격만 적어 주세요. 홈 추천·할인 목록·계산기가 이 조건으로 받을 수 있는 것만 남겨요. 성별·생년월일은 받지 않아요." : undefined}
+        note={viewer.userId ? "쓰는 구독과 가진 것, 자격만 적어 주세요. 홈 정산표, 할인 목록, 계산기가 이 조건으로 받을 수 있는 것만 남겨요. 성별·생년월일은 받지 않아요." : undefined}
       />
       {!viewer.userId ? (
         <div className="border-t-2 border-ink pt-5">

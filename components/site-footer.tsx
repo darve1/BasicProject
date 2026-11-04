@@ -4,7 +4,7 @@ import type { Source } from "@/lib/types";
 const COLS: { title: string; links: [string, string][] }[] = [
   { title: "최저가", links: [["/lowest", "조합 계산기"], ["/lowest/ott", "OTT"], ["/lowest/ai", "AI 구독"], ["/lowest/delivery", "배달앱"], ["/lowest/etc", "기타"]] },
   { title: "할인", links: [["/deals/card", "카드 제휴"], ["/deals/telecom", "통신사 제휴"], ["/deals/platform", "플랫폼 연계"]] },
-  { title: "내 장부", links: [["/", "홈 추천"], ["/my", "내 조건"], ["/about", "추천 기준·출처"]] },
+  { title: "내 장부", links: [["/", "이번 달 정산"], ["/my", "내 조건"], ["/about", "추천 기준·출처"]] },
 ];
 
 export function SiteFooter({ sources }: { sources: Source[] }) {

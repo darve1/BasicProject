@@ -36,7 +36,7 @@ const SECTIONS: Section[] = [
 export function SiteNav({ signedIn, conditions, signOut }: { signedIn: boolean; conditions: string[]; signOut?: () => Promise<void> }) {
   const path = usePathname();
   const current = SECTIONS.find((s) => s.on(path));
-  const summary = conditions.length ? conditions.slice(0, 2).join(" · ") + (conditions.length > 2 ? ` 외 ${conditions.length - 2}` : "") : null;
+  const summary = conditions.length ? conditions.slice(0, 2).join(", ") + (conditions.length > 2 ? ` 외 ${conditions.length - 2}` : "") : null;
 
   return (
     <>

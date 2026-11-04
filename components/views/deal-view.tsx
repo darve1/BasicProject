@@ -25,7 +25,7 @@ export function DealView({ deal, viewer, brands, sources, conditionHref }: { dea
         <header className="flex items-start gap-6 border-b-2 border-ink pb-5">
           <div className="min-w-0 flex-1">
             <p className="text-sm text-ink-3">
-              {source?.name ?? deal.source_id} · {DEAL_CATEGORY_LABEL[deal.category]}
+              {source?.name ?? deal.source_id}, {DEAL_CATEGORY_LABEL[deal.category]}
             </p>
             <h1 className="mt-1 text-[1.5rem] leading-tight font-bold tracking-[-0.02em] text-balance md:text-[1.75rem]">{deal.title}</h1>
             {deal.benefit_text && <p className="mt-3 max-w-[60ch] text-ink-2">{deal.benefit_text}</p>}
@@ -70,8 +70,9 @@ export function DealView({ deal, viewer, brands, sources, conditionHref }: { dea
             <dt className="text-sm text-ink-3">출처</dt>
             <dd className="text-sm">
               <p>
-                {TRUST_LABEL[deal.source_trust]} 출처 · {source?.mode === "crawl" ? "자동 수집" : "공식 페이지 확인 후 수동 등록"} · 마지막 확인 {deal.last_seen_at.slice(0, 10)}
+                {TRUST_LABEL[deal.source_trust]} 출처, {source?.mode === "crawl" ? "자동 수집" : "공식 페이지 확인 후 수동 등록"}
               </p>
+              <p className="tabular-nums">마지막 확인 {deal.last_seen_at.slice(0, 10)}</p>
               {source?.note && <p className="mt-1 text-ink-3">{source.note}</p>}
               <p className="mt-1 text-ink-3">전월실적, 한도, 제외 가맹점 같은 세부 조건은 원문에서 확인하세요.</p>
             </dd>

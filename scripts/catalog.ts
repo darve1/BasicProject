@@ -1,5 +1,5 @@
 // 최저가 카탈로그(가입 경로·카드)와 수집이 막힌 소스의 시드 딜.
-// 원칙: 공식 페이지에서 직접 본 값만 status=confirmed. 보도·플랫폼 출처, 달러 결제(환율 변동)는 needs_check.
+// 원칙: 공식 페이지에서 직접 본 값만 status=confirmed. 플랫폼 출처, 달러 결제(환율 변동)는 needs_check. 뉴스 보도는 출처로 쓰지 않는다.
 // 확인일 2026-11-03. 가격이 바뀌면 이 파일을 고치고 npm run seed 를 다시 돌린다.
 import type { Card, Plan, PlanInclude } from "../lib/types";
 
@@ -14,9 +14,8 @@ const URL = {
   disney: "https://www.disneyplus.com/ko-kr",
   coupangplay: "https://www.coupangplay.com/",
   udok: "https://www.lguplus.com/pogg/magazine/2026-%EA%B5%AC%EB%8F%85%EB%A3%8C-%EC%A0%88%EA%B0%90-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C",
-  youtubeLite: "https://www.khan.co.kr/article/202511271530001/",
+  youtube: "https://blog.youtube/intl/ko-kr/news-and-events/yt-premium-lite-kr/",
   chatgpt: "https://chatgpt.com/pricing",
-  chatgptGo: "https://nextplatform.net/?p=8817",
   claude: "https://claude.com/pricing",
   googleAi: "https://one.google.com/about/ai-premium",
   perplexity: "https://www.perplexity.ai/pro",
@@ -24,16 +23,12 @@ const URL = {
   naverplus: "https://nid.naver.com/membership/join",
   coupangwow: "https://www.coupang.com/",
   baemin: "https://www.baemin.com/",
-  yogipass: "https://byline.network/?p=9004111222504559",
   sktYtLite: "https://news.sktelecom.com/tag/%ec%9c%a0%ed%8a%9c%eb%b8%8c%ed%94%84%eb%a6%ac%eb%af%b8%ec%97%84",
-  ktYtLite: "https://www.heraldk.com/article/2026041318391148399",
-  ktTving: "https://www.ddaily.co.kr/page/view/2026052609054620819",
   cardsBanksalad:
     "https://www.banksalad.com/articles/%EB%84%B7%ED%94%8C%EB%A6%AD%EC%8A%A4-%EC%9A%94%EA%B8%88%EC%A0%9C%EC%99%80-%EA%B0%80%EA%B2%A9-%EA%B3%84%EC%A0%95-%EA%B3%B5%EC%9C%A0-%EA%B8%88%EC%A7%80%EA%B9%8C%EC%A7%80",
-  cardsDaum: "https://v.daum.net/v/YquCz6EQHN",
 };
 
-// 사용자가 실제로 가입하는 공식 페이지. 출처(source_url)가 보도라도 링크는 여기로 보낸다
+// 사용자가 실제로 가입하는 공식 페이지. 출처(source_url)가 플랫폼 자료라도 링크는 여기로 보낸다
 const SIGNUP: Record<string, string> = {
   netflix: "https://www.netflix.com/kr/",
   tving: "https://www.tving.com/membership/tving",
@@ -113,12 +108,11 @@ const PLAN_LIST = [
   // 쿠팡플레이: 쿠팡 회원이면 광고와 함께 무료 (공식)
   p({ id: "coupangplay-free", name: "쿠팡플레이 일반 회원(광고형)", seller_brand_id: "coupangplay", route: "official", price_monthly: 0, includes: [inc("coupangplay", "일반 회원 광고형", true)], conditions: ["일부 콘텐츠는 와우 멤버십·패스 필요"], source_url: URL.coupangplay, source_trust: "official" }),
 
-  // 유튜브 프리미엄 (보도 기준)
-  p({ id: "youtube-premium", name: "유튜브 프리미엄", seller_brand_id: "youtube", route: "official", price_monthly: 14900, includes: [inc("youtube", "프리미엄(뮤직 포함)", false)], exclusive_group: "youtube", status: "needs_check", conditions: ["웹·Android 결제 기준, iOS 인앱은 더 비쌈"], source_url: URL.youtubeLite, source_trust: "press" }),
-  p({ id: "youtube-lite", name: "유튜브 프리미엄 라이트", seller_brand_id: "youtube", route: "official", price_monthly: 8500, includes: [inc("youtube", "라이트(뮤직 제외)", false)], exclusive_group: "youtube", status: "needs_check", conditions: ["유튜브 뮤직 미포함", "웹·Android 결제 기준"], source_url: URL.youtubeLite, source_trust: "press" }),
+  // 유튜브 프리미엄 (유튜브 공식 블로그에서 확인)
+  p({ id: "youtube-premium", name: "유튜브 프리미엄", seller_brand_id: "youtube", route: "official", price_monthly: 14900, includes: [inc("youtube", "프리미엄(뮤직 포함)", false)], exclusive_group: "youtube", conditions: ["웹·Android 결제 기준, iOS 앱 결제는 가격이 다를 수 있음"], checked_at: "2026-11-04", source_url: URL.youtube, source_trust: "official" }),
+  p({ id: "youtube-lite", name: "유튜브 프리미엄 라이트", seller_brand_id: "youtube", route: "official", price_monthly: 8500, includes: [inc("youtube", "라이트(뮤직 제외)", false)], exclusive_group: "youtube", conditions: ["유튜브 뮤직 미포함", "웹·Android 결제 기준"], checked_at: "2026-11-04", source_url: URL.youtube, source_trust: "official" }),
 
   // AI 구독. 달러 결제는 1달러=1,400원·부가세 10% 기준 환산
-  p({ id: "chatgpt-go", name: "ChatGPT Go", seller_brand_id: "chatgpt", route: "official", price_monthly: 15000, includes: [inc("chatgpt", "Go")], exclusive_group: "chatgpt", status: "needs_check", source_url: URL.chatgptGo, source_trust: "press" }),
   p({ id: "chatgpt-plus", name: "ChatGPT Plus", seller_brand_id: "chatgpt", route: "official", price_monthly: usd(20), includes: [inc("chatgpt", "Plus")], exclusive_group: "chatgpt", status: "needs_check", conditions: ["US$20 + 부가세, 원화 금액은 환율에 따라 달라짐"], source_url: URL.chatgpt, source_trust: "official" }),
   p({ id: "claude-pro", name: "Claude Pro", seller_brand_id: "claude", route: "official", price_monthly: usd(20), includes: [inc("claude", "Pro")], exclusive_group: "claude", status: "needs_check", conditions: ["US$20 + 부가세, 원화 금액은 환율에 따라 달라짐"], source_url: URL.claude, source_trust: "official" }),
   p({ id: "claude-pro-annual", name: "Claude Pro 연간", seller_brand_id: "claude", route: "official", billing: "annual", price_monthly: usd(17), includes: [inc("claude", "Pro")], exclusive_group: "claude", status: "needs_check", conditions: ["연간 결제 시 월 US$17 상당"], source_url: URL.claude, source_trust: "official" }),
@@ -135,7 +129,6 @@ const PLAN_LIST = [
   p({ id: "naverplus-spotify", name: "네이버플러스 멤버십 + 스포티파이 베이직", seller_brand_id: "naverplus", route: "membership", price_monthly: 4900, owned_price: 0, includes: [inc("naverplus", "쇼핑 적립 등"), inc("spotify", "프리미엄 베이직")], exclusive_group: "naverplus", status: "needs_check", conditions: ["디지털 콘텐츠 혜택 중 1개 선택"], source_url: URL.naverplus, source_trust: "official" }),
   p({ id: "coupang-wow", name: "쿠팡 와우 멤버십", seller_brand_id: "coupangwow", route: "membership", price_monthly: 7890, owned_price: 0, includes: [inc("coupangwow", "로켓배송·쿠팡이츠 무료배달"), inc("coupangplay", "와우 회원 콘텐츠", true)], exclusive_group: "coupangwow", status: "needs_check", source_url: URL.coupangwow, source_trust: "official" }),
   p({ id: "baeminclub", name: "배민클럽", seller_brand_id: "baeminclub", route: "membership", price_monthly: 3990, owned_price: 0, includes: [inc("baeminclub", "알뜰·한집배달 무료")], exclusive_group: "baeminclub", status: "needs_check", conditions: ["프로모션 시 1,990원"], source_url: URL.baemin, source_trust: "official" }),
-  p({ id: "yogipass-x", name: "요기패스X", seller_brand_id: "yogipass", route: "membership", price_monthly: 4900, owned_price: 0, includes: [inc("yogipass", "배달비 무료")], exclusive_group: "yogipass", status: "needs_check", source_url: URL.yogipass, source_trust: "press" }),
 
   // 통신사 구독 상품
   p({ id: "udok-double-ads", name: "LG U+ 유독 더블 스트리밍 (유튜브 프리미엄 + 넷플릭스 광고형)", seller_brand_id: "lgu", route: "telecom", price_monthly: 18900, includes: [inc("youtube", "프리미엄", false), inc("netflix", "광고형 스탠다드", true)], conditions: ["통신사 무관 가입 가능", "1년 약정, 중도 해지 시 할인 반환금", "U+ VIP/VVIP는 월 4,000원 추가 할인"], source_url: URL.udok, source_trust: "official", watch_url: URL.udok, watch_selector: "main" }),
@@ -143,9 +136,6 @@ const PLAN_LIST = [
   p({ id: "udok-double-premium", name: "LG U+ 유독 더블 스트리밍 (유튜브 프리미엄 + 넷플릭스 프리미엄)", seller_brand_id: "lgu", route: "telecom", price_monthly: 26900, includes: [inc("youtube", "프리미엄", false), inc("netflix", "프리미엄", false)], conditions: ["통신사 무관 가입 가능", "1년 약정"], source_url: URL.udok, source_trust: "official" }),
   p({ id: "udok-youtube-pick", name: "LG U+ 유튜브 프리미엄 유독픽", seller_brand_id: "lgu", route: "telecom", price_monthly: 13900, includes: [inc("youtube", "프리미엄", false)], conditions: ["통신사 무관, 약정 없음", "매달 라이프 쿠폰 1종 선택", "U+ VIP/VVIP는 월 9,900원"], source_url: URL.udok, source_trust: "official" }),
   p({ id: "skt-youtube-lite", name: "T 우주 유튜브 프리미엄 라이트", seller_brand_id: "skt", route: "telecom", price_monthly: 7900, includes: [inc("youtube", "라이트(뮤직 제외)", false)], status: "needs_check", conditions: ["T 우주 상품, 통신사 무관 가입(보도 기준)"], source_url: URL.sktYtLite, source_trust: "official" }),
-  p({ id: "kt-youtube-lite", name: "KT 구독 유튜브 프리미엄 라이트", seller_brand_id: "kt", route: "telecom", price_monthly: 8000, requires_brand_ids: ["kt"], payment: "bill", includes: [inc("youtube", "라이트(뮤직 제외)", false)], status: "needs_check", source_url: URL.ktYtLite, source_trust: "press" }),
-  p({ id: "kt-tving-basic", name: "KT 티빙 생활구독팩 베이직", seller_brand_id: "kt", route: "telecom", price_monthly: 11500, requires_brand_ids: ["kt"], payment: "bill", includes: [inc("tving", "베이직", false)], status: "needs_check", conditions: ["GS25·다이소 쿠폰 포함", "12/31까지 월 2,000원 추가 할인"], source_url: URL.ktTving, source_trust: "press" }),
-  p({ id: "kt-tving-standard", name: "KT 티빙 생활구독팩 스탠다드", seller_brand_id: "kt", route: "telecom", price_monthly: 15500, requires_brand_ids: ["kt"], payment: "bill", includes: [inc("tving", "스탠다드", false)], status: "needs_check", conditions: ["GS25·다이소 쿠폰 포함", "12/31까지 월 2,000원 추가 할인"], source_url: URL.ktTving, source_trust: "press" }),
 ] satisfies (Plan & { watch_url: string | null; watch_selector: string | null })[];
 
 export const PLANS = PLAN_LIST.map((x) => ({ ...x, signup_url: SIGNUP[x.seller_brand_id] ?? x.source_url }));
@@ -163,7 +153,6 @@ const c = (x: Omit<Card, "checked_at" | "status" | "notes"> & Partial<Card>) => 
 const CARD_LIST = [
   c({ id: "nh-zgm-streaming", issuer_brand_id: "nhcard", name: "NH농협 지금 스트리밍(zgm.streaming)", annual_fee: 12000, min_prev_month_spend: 400000, discount_kind: "rate", discount_value: 50, monthly_cap: 5000, eligible_service_ids: ["netflix", "tving", "wavve", "disney", "youtube"], notes: ["OTT 정기결제 50%, 월 통합 5,000원 한도", "멤버십 정기결제 할인은 계산에 넣지 않음"], source_url: URL.cardsBanksalad, source_trust: "platform" }),
   c({ id: "hana-wonder-young", issuer_brand_id: "hanacard", name: "하나 원더카드 2.0 YOUNG", annual_fee: 19900, min_prev_month_spend: 400000, discount_kind: "rate", discount_value: 70, monthly_cap: 8000, eligible_service_ids: ["netflix"], notes: ["영상 스트리밍 70%, 한도 8,000~15,000원(실적 구간별)", "확인된 넷플릭스만 계산"], source_url: URL.cardsBanksalad, source_trust: "platform" }),
-  c({ id: "samsung-taptap-digital", issuer_brand_id: "samsungcard", name: "삼성카드 taptap DIGITAL", annual_fee: 10000, min_prev_month_spend: 300000, discount_kind: "rate", discount_value: 50, monthly_cap: 10000, eligible_service_ids: ["netflix", "wavve", "tving"], notes: ["넷플릭스·웨이브·티빙 등 정기결제 50%"], source_url: URL.cardsDaum, source_trust: "press" }),
 ] satisfies (Card & { watch_url: string | null; watch_selector: string | null })[];
 
 export const CARDS = CARD_LIST.map((x) => ({ ...x, signup_url: ISSUER_HOME[x.issuer_brand_id] ?? x.source_url }));
@@ -198,8 +187,6 @@ export const SEED_DEALS: SeedDeal[] = [
   samsung("3746338", "중고차 살 땐 K Car", "2026-11-02", "2026-11-30"),
   samsung("3760409", "BMW 최대 60개월 할부 현금구매 시 캐시백", "2026-11-02", "2026-11-15"),
   samsung("3760401", "금리 할인에 캐시백까지 11월 다이렉트 오토 혜택", "2026-11-02", "2026-11-15"),
-  { source_id: "kt-membership", external_id: "kt-tving-pack", title: "KT 티빙 생활구독팩 (티빙 + GS25·다이소 쿠폰)", benefit_text: "티빙 이용권에 생활 쿠폰을 더한 KT 구독 상품, 정상가보다 월 2,000원 저렴. 12/31까지 2,000원 추가 할인", ends_at: "2026-12-31", url: SIGNUP.kt, trust: "press" },
-  { source_id: "kt-membership", external_id: "kt-youtube-lite", title: "KT 구독 유튜브 프리미엄 라이트 월 8,000원", benefit_text: "시중가 8,500원 대비 500원 저렴", url: SIGNUP.kt, trust: "press" },
   { source_id: "subscription-bundles", requirements: [], external_id: "double-ads", title: "티빙×웨이브 더블 이용권 광고형 월 7,000원", benefit_text: "티빙·웨이브 광고형 스탠다드를 함께. 각각 사면 11,000원", url: URL.wavve },
   { source_id: "subscription-bundles", requirements: [], external_id: "tving-3pack", title: "티빙·웨이브·디즈니+ 3 PACK 월 21,500원", benefit_text: "세 서비스 스탠다드 묶음, 따로 사면 34,300원", ends_at: "2027-01-31", url: URL.tving },
   { source_id: "subscription-bundles", requirements: [], external_id: "tving-disney", title: "티빙×디즈니+ 더블 월 18,000원", benefit_text: "티빙 스탠다드 + 디즈니+ 스탠다드, 따로 사면 23,400원", ends_at: "2027-01-31", url: URL.tving },

@@ -5,17 +5,15 @@ export { Correction, Need, Seal } from "./marks";
 
 export function Page({ children, width = "wide" }: { children: React.ReactNode; width?: "wide" | "mid" | "narrow" }) {
   const max = width === "wide" ? "max-w-[1180px]" : width === "mid" ? "max-w-[920px]" : "max-w-[720px]";
-  return <main className={`mx-auto ${max} px-5 pb-20 md:px-8 xl:px-0`}>{children}</main>;
+  return <main className={`mx-auto w-full flex-1 ${max} px-5 pb-20 md:px-8 xl:px-0`}>{children}</main>;
 }
 
 export function PageHead({ title, note, children }: { title: string; note?: React.ReactNode; children?: React.ReactNode }) {
   return (
-    <header className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 pt-8 pb-6 md:pt-10">
-      <div className="min-w-0">
-        <h1 className="text-[1.5rem] leading-tight font-bold tracking-[-0.02em] md:text-[1.75rem]">{title}</h1>
-        {note && <p className="mt-1.5 max-w-[62ch] text-ink-2">{note}</p>}
-      </div>
-      {children}
+    <header className="pt-8 pb-6 md:pt-10">
+      <h1 className="text-[1.5rem] leading-tight font-bold tracking-[-0.02em] [overflow-wrap:break-word] md:text-[1.75rem]">{title}</h1>
+      {note && <p className="mt-1.5 max-w-[66ch] text-pretty text-ink-2">{note}</p>}
+      {children && <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">{children}</div>}
     </header>
   );
 }

@@ -71,21 +71,16 @@ export const ROUTE_LABEL = {
   platform: "플랫폼 결합",
 } as const;
 
-// 근거(출처) 이름: 링크하지 않고 글자로만 보여준다. 이동은 항상 공식 가입 페이지로
+// 근거(출처) 이름: 링크하지 않고 글자로만 보여준다. 이동은 항상 공식 가입 페이지로. 뉴스 기사는 근거로 쓰지 않는다
 const SOURCE_NAMES: [RegExp, string][] = [
-  [/heraldk\.com/, "헤럴드경제"],
-  [/ddaily\.co\.kr/, "디지털데일리"],
-  [/khan\.co\.kr/, "경향신문"],
-  [/nextplatform\.net/, "Next Platform"],
-  [/byline\.network/, "바이라인네트워크"],
-  [/daum\.net/, "다음 뉴스"],
+  [/blog\.youtube/, "유튜브 공식 블로그"],
   [/news\.sktelecom\.com/, "SKT 뉴스룸"],
   [/banksalad\.com/, "뱅크샐러드"],
 ];
 
 export function sourceName(url: string, trust: SourceTrust): string {
   const known = SOURCE_NAMES.find(([re]) => re.test(url))?.[1];
-  if (known) return `${known} ${trust === "press" ? "보도" : "자료"}`;
+  if (known) return trust === "official" ? known : `${known} ${trust === "press" ? "보도" : "자료"}`;
   try {
     return `${new URL(url).hostname.replace(/^www\./, "")} 공식 페이지`;
   } catch {
