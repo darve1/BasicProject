@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "@/app/actions";
 
 type Section = { href: string; label: string; on: (p: string) => boolean; sub?: [string, string][] };
 
@@ -33,7 +32,8 @@ const SECTIONS: Section[] = [
   { href: "/about", label: "추천 기준", on: (p) => p === "/about" },
 ];
 
-export function SiteNav({ signedIn, conditions }: { signedIn: boolean; conditions: string[] }) {
+// signOut: 서버 사이트에서는 로그아웃 서버 액션을 넘긴다. 아티팩트(브라우저 저장 모드)에서는 넘기지 않는다
+export function SiteNav({ signedIn, conditions, signOut }: { signedIn: boolean; conditions: string[]; signOut?: () => Promise<void> }) {
   const path = usePathname();
   const current = SECTIONS.find((s) => s.on(path));
   const summary = conditions.length ? conditions.slice(0, 2).join(" · ") + (conditions.length > 2 ? ` 외 ${conditions.length - 2}` : "") : null;
@@ -70,11 +70,13 @@ export function SiteNav({ signedIn, conditions }: { signedIn: boolean; condition
                     <span className="font-semibold text-blue">내 조건 적기</span>
                   )}
                 </Link>
+                {signOut && (
                 <form action={signOut} className="hidden md:block">
                   <button type="submit" className="whitespace-nowrap text-ink-3 hover:text-ink">
                     로그아웃
                   </button>
                 </form>
+                )}
               </>
             ) : (
               <Link href="/login" className="rounded-[4px] bg-ink px-3 py-1.5 font-bold whitespace-nowrap text-sheet hover:bg-ink-2">

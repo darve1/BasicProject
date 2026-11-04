@@ -5,7 +5,7 @@ import { ROUTE_LABEL, SERVICE_CATEGORY_LABEL, sourceName, won } from "@/lib/form
 import type { Brand, Card, Plan, ServiceCategory } from "@/lib/types";
 import { Correction, Seal } from "./marks";
 
-type Props = {
+export type CalculatorData = {
   services: Brand[]; // category가 있는 브랜드(구독 서비스·멤버십)
   telecoms: Brand[];
   memberships: Brand[];
@@ -14,9 +14,9 @@ type Props = {
   brands: Brand[];
   owned: string[];
   elig: string[];
-  initial: string[];
-  compact?: boolean;
 };
+
+type Props = CalculatorData & { initial: string[]; compact?: boolean };
 
 const CATS: ServiceCategory[] = ["ott", "ai", "delivery", "etc"];
 

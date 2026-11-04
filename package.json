@@ -13,7 +13,7 @@
     "migrate": "tsx --env-file=.env.local scripts/migrate.ts",
     "check": "tsx --env-file=.env.local scripts/check.ts",
     "demo-link": "tsx --env-file=.env.local scripts/demo-link.ts",
-    "snapshot": "tsx --env-file=.env.local scripts/snapshot.ts"
+    "artifact": "next build && tsx --env-file=.env.local scripts/build-artifact.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { signOut } from "@/app/actions";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { getBrands, getSources, getViewer } from "@/lib/data";
@@ -23,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className="min-h-dvh pb-16 md:pb-0">
-        <SiteNav signedIn={Boolean(viewer.userId)} conditions={conditionLabels(viewer, brands)} />
+        <SiteNav signedIn={Boolean(viewer.userId)} conditions={conditionLabels(viewer, brands)} signOut={signOut} />
         {children}
         <SiteFooter sources={sources} />
       </body>

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useActionState, useState } from "react";
-import { saveProfile, type FormState } from "@/app/actions";
+import { useState, type FormEvent } from "react";
+import type { FormState } from "@/app/actions";
 import { AGE_BANDS, ROLES } from "@/lib/eligibility";
 import { SERVICE_CATEGORY_LABEL } from "@/lib/format";
 import type { Brand, BrandKind, ServiceCategory } from "@/lib/types";
@@ -15,20 +15,36 @@ const GROUPS: { kind: BrandKind; title: string; hint: string; single?: boolean }
   { kind: "platform", title: "가입한 멤버십", hint: "이미 내고 있는 멤버십" },
 ];
 
+// save: 서버 사이트에서는 저장 서버 액션, 아티팩트에서는 브라우저·아티팩트 저장소에 쓰는 함수.
+// React 18에서도 돌도록 폼 action 대신 onSubmit으로 부른다
 export function ProfileForm({
   brands,
   initial,
+  save,
+  storageNote,
 }: {
+  save: (prev: FormState, form: FormData) => Promise<FormState>;
+  storageNote?: string;
   brands: Brand[];
   initial: { brandIds: string[]; ageBand: string | null; roles: string[]; services: string[] };
 }) {
-  const [state, action, pending] = useActionState<FormState, FormData>(saveProfile, null);
+  const [state, setState] = useState<FormState>(null);
+  const [pending, setPending] = useState(false);
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+    try {
+      setState(await save(state, new FormData(e.currentTarget)));
+    } finally {
+      setPending(false);
+    }
+  };
   const [telecom, setTelecom] = useState(brands.find((b) => b.kind === "telecom" && initial.brandIds.includes(b.id))?.id ?? "");
 
   const box = "inline-flex cursor-pointer items-center gap-2 rounded-[4px] border border-rule-2 bg-sheet px-3 py-2 has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:font-bold has-[:checked]:text-sheet has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue";
 
   return (
-    <form action={action} className="border-t-2 border-ink">
+    <form onSubmit={onSubmit} className="border-t-2 border-ink">
       <fieldset className="border-b border-rule py-5">
         <legend className="sr-only">쓰는 구독</legend>
         <div className="mb-3 flex flex-wrap items-baseline gap-x-3">
@@ -135,6 +151,7 @@ export function ProfileForm({
             )}
           </p>
         )}
+        {!state && storageNote && <p className="text-sm text-ink-3">{storageNote}</p>}
       </div>
     </form>
   );
