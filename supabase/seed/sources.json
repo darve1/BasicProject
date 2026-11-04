@@ -1,0 +1,101 @@
+[
+  {
+    "id": "skt-membership",
+    "brand_id": "skt",
+    "deal_type": "telecom",
+    "name": "SKT T 멤버십 혜택 브랜드",
+    "url": "https://sktmembership.tworld.co.kr/mps/pc-bff/benefitbrand/list-tab1.do",
+    "mode": "crawl",
+    "note": null
+  },
+  {
+    "id": "lgu-events",
+    "brand_id": "lgu",
+    "deal_type": "telecom",
+    "name": "LG U+ 진행 중 이벤트",
+    "url": "https://www.lguplus.com/benefit-event/ongoing",
+    "mode": "crawl",
+    "note": null
+  },
+  {
+    "id": "kt-membership",
+    "brand_id": "kt",
+    "deal_type": "telecom",
+    "name": "KT 멤버십 혜택",
+    "url": "https://membership.kt.com/",
+    "mode": "seed",
+    "note": "수집 서버에서 membership.kt.com 접속이 되지 않아 공식 페이지 확인 데이터로 채움"
+  },
+  {
+    "id": "hyundai-events",
+    "brand_id": "hyundaicard",
+    "deal_type": "card",
+    "name": "현대카드 진행 중 이벤트",
+    "url": "https://www.hyundaicard.com/cpb/ev/CPBEV0101_01.hc",
+    "mode": "crawl",
+    "note": null
+  },
+  {
+    "id": "kb-events",
+    "brand_id": "kbcard",
+    "deal_type": "card",
+    "name": "KB국민카드 진행중 이벤트",
+    "url": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+    "mode": "crawl",
+    "note": null
+  },
+  {
+    "id": "shinhan-events",
+    "brand_id": "shinhan",
+    "deal_type": "card",
+    "name": "신한카드 이벤트",
+    "url": "https://www.shinhancard.com/pconts/html/benefit/event/2014810_2239.html",
+    "mode": "seed",
+    "note": "이벤트 목록 API가 robots.txt 금지 경로(/mob/)라 자동 수집하지 않음"
+  },
+  {
+    "id": "samsung-events",
+    "brand_id": "samsungcard",
+    "deal_type": "card",
+    "name": "삼성카드 진행중인 이벤트",
+    "url": "https://www.samsungcard.com/personal/event/ing/UHPPBE1401M0.jsp",
+    "mode": "seed",
+    "note": "robots.txt가 일반 수집기를 전면 금지(Disallow: /)해 자동 수집하지 않음"
+  },
+  {
+    "id": "naverpay-events",
+    "brand_id": "naverpay",
+    "deal_type": "platform",
+    "name": "네이버페이 혜택",
+    "url": "https://pay.naver.com",
+    "mode": "seed",
+    "note": "이벤트 목록이 로그인 후에만 보여 자동 수집하지 않음"
+  },
+  {
+    "id": "kakaopay-events",
+    "brand_id": "kakaopay",
+    "deal_type": "platform",
+    "name": "카카오페이 혜택",
+    "url": "https://www.kakaopay.com",
+    "mode": "seed",
+    "note": "공개 웹 이벤트 목록이 없음(앱 전용)"
+  },
+  {
+    "id": "tosspay-events",
+    "brand_id": "tosspay",
+    "deal_type": "platform",
+    "name": "토스페이 혜택",
+    "url": "https://toss.im",
+    "mode": "seed",
+    "note": "공개 웹 이벤트 목록이 없음(앱 전용)"
+  },
+  {
+    "id": "subscription-bundles",
+    "brand_id": "naverplus",
+    "deal_type": "platform",
+    "name": "멤버십·플랫폼 구독 결합",
+    "url": "https://nid.naver.com/membership/join",
+    "mode": "seed",
+    "note": "멤버십 결합 혜택은 각 사 공식 안내·보도자료로 확인"
+  }
+]

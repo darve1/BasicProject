@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T15:04:43.863Z",
+  "title": "Design System: 구독장부",
+  "extensions": {
+    "colorMeta": {
+      "ledger-paper": {
+        "role": "neutral",
+        "displayName": "장부지",
+        "canonical": "#f6f7f4",
+        "tonalRamp": [
+          "#47484c",
+          "#818384",
+          "#bcbdbc",
+          "#f6f7f4",
+          "#f9f9f7",
+          "#fbfbfa",
+          "#fdfdfc",
+          "#fefefe"
+        ]
+      },
+      "sheet-white": {
+        "role": "neutral",
+        "displayName": "시트 흰색",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#494a4f",
+          "#86878a",
+          "#c2c3c4",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff"
+        ]
+      },
+      "navy-ink": {
+        "role": "primary",
+        "displayName": "남색 잉크",
+        "canonical": "#1d2430",
+        "tonalRamp": [
+          "#10141b",
+          "#151922",
+          "#191f29",
+          "#1d2430",
+          "#61666e",
+          "#999ca2",
+          "#c7c8cb",
+          "#e8e9ea"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "보조 잉크",
+        "canonical": "#444d5b",
+        "tonalRamp": [
+          "#1a1e26",
+          "#282e38",
+          "#363d49",
+          "#444d5b",
+          "#7c828c",
+          "#abafb5",
+          "#d0d3d6",
+          "#ecedef"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "흐린 잉크",
+        "canonical": "#5c6470",
+        "tonalRamp": [
+          "#20242b",
+          "#343942",
+          "#484f59",
+          "#5c6470",
+          "#8d939b",
+          "#b6b9bf",
+          "#d6d8db",
+          "#eff0f1"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "장부 선",
+        "canonical": "#dfe3dc",
+        "tonalRamp": [
+          "#414346",
+          "#767978",
+          "#aaaeaa",
+          "#dfe3dc",
+          "#e9ebe7",
+          "#f1f2ef",
+          "#f7f8f6",
+          "#fcfcfc"
+        ]
+      },
+      "hairline-strong": {
+        "role": "neutral",
+        "displayName": "진한 장부 선",
+        "canonical": "#c7cdc4",
+        "tonalRamp": [
+          "#3b3e40",
+          "#6a6e6c",
+          "#989d98",
+          "#c7cdc4",
+          "#d8dcd6",
+          "#e6e9e4",
+          "#f1f3f0",
+          "#f9faf9"
+        ]
+      },
+      "correction-red": {
+        "role": "primary",
+        "displayName": "정정 빨간 펜",
+        "canonical": "#c4313a",
+        "tonalRamp": [
+          "#3a171e",
+          "#682027",
+          "#962831",
+          "#c4313a",
+          "#d66f75",
+          "#e4a2a6",
+          "#f0ccce",
+          "#f9eaeb"
+        ]
+      },
+      "correction-red-wash": {
+        "role": "primary",
+        "displayName": "빨간 펜 옅은 바탕",
+        "canonical": "#fbeced",
+        "tonalRamp": [
+          "#48464a",
+          "#847d81",
+          "#bfb5b7",
+          "#fbeced",
+          "#fcf2f2",
+          "#fdf6f7",
+          "#fefafb",
+          "#fffdfd"
+        ]
+      },
+      "saving-blue": {
+        "role": "primary",
+        "displayName": "절약 파란 펜",
+        "canonical": "#2453bd",
+        "tonalRamp": [
+          "#121f3e",
+          "#183169",
+          "#1e4293",
+          "#2453bd",
+          "#6687d1",
+          "#9cb2e1",
+          "#c8d4ef",
+          "#e9eef8"
+        ]
+      },
+      "saving-blue-wash": {
+        "role": "primary",
+        "displayName": "파란 펜 옅은 바탕",
+        "canonical": "#e9eefb",
+        "tonalRamp": [
+          "#43464e",
+          "#7b7e88",
+          "#b2b6c1",
+          "#e9eefb",
+          "#f0f3fc",
+          "#f5f7fd",
+          "#fafbfe",
+          "#fdfdff"
+        ]
+      },
+      "seal-vermilion": {
+        "role": "secondary",
+        "displayName": "인주 도장",
+        "canonical": "#d03a40",
+        "tonalRamp": [
+          "#3d191f",
+          "#6e242a",
+          "#9f2f35",
+          "#d03a40",
+          "#de7579",
+          "#eaa6a9",
+          "#f3cecf",
+          "#faebec"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "page-title": {
+        "displayName": "페이지 제목",
+        "purpose": "페이지당 하나. 예: 11월 구독 정산"
+      },
+      "title": {
+        "displayName": "제목",
+        "purpose": "칸 제목, 바로 아래 2px 잉크 선"
+      },
+      "figure": {
+        "displayName": "숫자",
+        "purpose": "정정선의 최저가 한 곳, 고정폭 숫자"
+      },
+      "body": {
+        "displayName": "본문",
+        "purpose": "행 제목(굵게)과 설명, 65~68ch 이내"
+      },
+      "small": {
+        "displayName": "작은 글자",
+        "purpose": "메타 정보, 배지, 표 머리, 출처 줄"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "stamp-in",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "확인 도장이 기울어진 채 커졌다가 자리 잡는 단 하나의 움직임. 동작 줄이기 설정에서는 생략."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "아래 탭 바 → 상단 메뉴"
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "홈 두 칸(본문 + 360px 계산기)"
+      },
+      {
+        "name": "@2xl",
+        "value": "672px (container)",
+        "purpose": "장부 표 네 열 배치, 표가 놓인 칸 기준"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "주 버튼",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "찾기·저장하기·원문에서 확인하기 같은 주 동작.",
+      "html": "<button class=\"ds-btn-primary\">저장하기</button>",
+      "css": ".ds-btn-primary{background:var(--ink,#1d2430);color:#fff;border:0;border-radius:4px;padding:10px 16px;font-weight:700;font-size:15px;cursor:pointer;transition:background .15s}.ds-btn-primary:hover{background:var(--ink-2,#444d5b)}.ds-btn-primary:focus-visible{outline:2px solid var(--blue,#2453bd);outline-offset:2px}"
+    },
+    {
+      "name": "토글",
+      "kind": "chip",
+      "refersTo": "toggle-chip",
+      "description": "계산기의 구독 선택, 내 조건 선택지.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" aria-pressed=\"true\">넷플릭스</button><button class=\"ds-chip\" aria-pressed=\"false\">티빙</button></div>",
+      "css": ".ds-chips{display:flex;gap:6px}.ds-chip{background:#fff;color:var(--ink-2,#444d5b);border:1px solid var(--rule-2,#c7cdc4);border-radius:4px;padding:4px 10px;font-size:13px;cursor:pointer}.ds-chip:hover{border-color:var(--ink,#1d2430);color:var(--ink,#1d2430)}.ds-chip[aria-pressed=true]{background:var(--ink,#1d2430);border-color:var(--ink,#1d2430);color:#fff;font-weight:600}.ds-chip:focus-visible{outline:2px solid var(--blue,#2453bd);outline-offset:2px}"
+    },
+    {
+      "name": "밑줄 필터 탭",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "분류 필터와 하위 메뉴. 상자 없이 글자, 선택 시 빨간 밑줄.",
+      "html": "<nav class=\"ds-tabs\"><a aria-current=\"true\">전체</a><a>구독</a><a>카페</a><a>편의점</a></nav>",
+      "css": ".ds-tabs{display:flex;gap:16px;font-size:13px}.ds-tabs a{padding-bottom:4px;border-bottom:2px solid transparent;color:var(--ink-2,#444d5b);cursor:pointer}.ds-tabs a:hover{color:var(--ink,#1d2430)}.ds-tabs a[aria-current]{border-color:var(--red,#c4313a);color:var(--ink,#1d2430);font-weight:700}"
+    },
+    {
+      "name": "검색 입력",
+      "kind": "input",
+      "refersTo": "toggle-chip",
+      "description": "할인 목록 검색칸.",
+      "html": "<input class=\"ds-input\" placeholder=\"스타벅스, CGV, 넷플릭스\">",
+      "css": ".ds-input{background:#fff;border:1px solid var(--rule-2,#c7cdc4);border-radius:4px;padding:6px 12px;font-size:15px;color:var(--ink,#1d2430);width:240px}.ds-input::placeholder{color:var(--ink-3,#5c6470)}.ds-input:focus-visible{outline:2px solid var(--blue,#2453bd);outline-offset:2px}"
+    },
+    {
+      "name": "상단 바",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "워드마크, 주 메뉴(선택 시 굵게 + 잉크 밑줄), 오른쪽 내 조건 요약.",
+      "html": "<header class=\"ds-top\"><b>구독<span>장부</span></b><nav><a aria-current=\"page\">홈</a><a>최저가</a><a>할인</a></nav><small>내 조건 <b>SKT · 신한카드 외 3</b></small></header>",
+      "css": ".ds-top{display:flex;align-items:stretch;gap:28px;height:56px;padding:0 20px;background:#fff;border-bottom:1px solid var(--rule,#dfe3dc);font-size:15px;width:640px}.ds-top>b{align-self:center}.ds-top>b span{color:var(--red,#c4313a)}.ds-top nav{display:flex;gap:22px}.ds-top nav a{display:flex;align-items:center;border-bottom:2px solid transparent;color:var(--ink-2,#444d5b)}.ds-top nav a[aria-current]{border-color:var(--ink,#1d2430);color:var(--ink,#1d2430);font-weight:700}.ds-top small{margin-left:auto;align-self:center;color:var(--ink-3,#5c6470);font-size:13px}.ds-top small b{color:var(--ink,#1d2430)}"
+    },
+    {
+      "name": "확인 도장",
+      "kind": "custom",
+      "refersTo": "confirm-seal",
+      "description": "원형 인주 도장: 목록 46px, 상세 60px. 확인 필요는 점선 원.",
+      "html": "<div style=\"display:flex;gap:14px;align-items:center\"><span class=\"ds-mark\">공식 11.03</span><span class=\"ds-mark ds-pending\">확인 필요</span><span class=\"ds-seal\">공식확인<br>11.03</span><span class=\"ds-seal ds-seal-pending\">확인<br>필요</span></div>",
+      "css": ".ds-mark{border:1px solid var(--seal,#d03a40);color:var(--seal,#d03a40);border-radius:3px;padding:1px 6px;font-size:12px;font-weight:600}.ds-mark.ds-pending{border-style:dashed;border-color:var(--ink-3,#5c6470);color:var(--ink-2,#444d5b)}.ds-seal{display:inline-grid;place-items:center;width:60px;height:60px;border-radius:50%;border:2.5px solid var(--seal,#d03a40);color:var(--seal,#d03a40);font-size:11px;font-weight:700;line-height:1.25;text-align:center;transform:rotate(-8deg)}.ds-seal-pending{border:2px dashed var(--ink-3,#5c6470);color:var(--ink-2,#444d5b);transform:none}"
+    },
+    {
+      "name": "장부 표",
+      "kind": "custom",
+      "refersTo": "ledger-sheet",
+      "description": "칸 제목 + 2px 잉크 선, 표 머리, 1px 선으로 나눈 행.",
+      "html": "<section class=\"ds-ledger\"><h3>받을 수 있는 할인 187건</h3><div class=\"ds-head\"><span>혜택</span><span>받는 조건</span><span>확인</span></div><div class=\"ds-row\"><span><b>배스킨라빈스</b><small>VIP: 싱글레귤러 50% 할인</small></span><span class=\"ds-need\"><i></i>SKT</span><span class=\"ds-mark\">공식 11.03</span></div></section>",
+      "css": ".ds-ledger{width:560px}.ds-ledger h3{margin:0;padding-bottom:8px;border-bottom:2px solid var(--ink,#1d2430);font-size:18px}.ds-head,.ds-row{display:grid;grid-template-columns:1fr 120px 84px;gap:16px;align-items:center;border-bottom:1px solid var(--rule,#dfe3dc)}.ds-head{padding:8px 0;font-size:13px;color:var(--ink-3,#5c6470)}.ds-row{padding:14px 0}.ds-row:hover{background:var(--paper,#f6f7f4)}.ds-row small{display:block;font-size:13px;color:var(--ink-2,#444d5b)}.ds-need{display:inline-flex;gap:6px;align-items:center;font-size:13px}.ds-need i{width:8px;height:8px;border-radius:50%;background:var(--ink,#1d2430)}.ds-seal-sm{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;border:2px solid var(--seal,#d03a40);color:var(--seal,#d03a40);font-size:10px;font-weight:700;line-height:1.25;text-align:center;transform:rotate(-8deg);justify-self:end}"
+    },
+    {
+      "name": "정산표 합계",
+      "kind": "custom",
+      "refersTo": "ledger-sheet",
+      "description": "항목 줄, 비교 줄, 3px 이중 밑줄 위 월 합계와 정정선.",
+      "html": "<table class=\"ds-statement\"><tr><td>티빙×웨이브 더블 광고형</td><td>7,000원</td></tr><tr class=\"ds-cmp\"><td>본사 단품으로 따로 낼 때</td><td>18,000원</td></tr><tr class=\"ds-total\"><td>월 합계</td><td><s>18,000원</s> <b>7,000원</b></td></tr></table>",
+      "css": ".ds-statement{width:420px;border-collapse:collapse;font-size:15px}.ds-statement td{padding:10px 0;border-bottom:1px solid var(--rule,#dfe3dc)}.ds-statement td:last-child{text-align:right;font-variant-numeric:tabular-nums}.ds-cmp td{font-size:13px;color:var(--ink-3,#5c6470)}.ds-total td{border-top:3px double var(--ink,#1d2430);border-bottom:0;font-weight:700}.ds-total s{color:var(--ink-3,#5c6470);text-decoration-color:var(--red,#c4313a);text-decoration-thickness:2px;font-weight:400;font-size:13px}.ds-total b{color:var(--blue,#2453bd);font-size:28px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "월말 정산 노트",
+    "overview": "**Creative North Star: \"월말 정산 노트\"**\n\n한 달이 끝날 때 구독 고정비를 한 줄씩 정산하는 노트다. 푸른 기가 도는 장부지 위에 남색 잉크로 적고, 정가는 빨간 펜으로 한 번 긋고, 아낀 값은 파란 펜으로 고쳐 적고, 합계 아래에는 이중 밑줄을 긋는다. 공식 페이지에서 확인한 숫자에만 기울어진 원형 인주 도장을 찍고, 확인하지 못한 숫자는 점선 원으로 남겨 둔다. 이 노트의 권위는 화려함이 아니라 근거와 계산에서 나온다.",
+    "keyCharacteristics": [
+      "장부지(#f6f7f4) 바탕에 남색 잉크, 상자 대신 선으로 나눈 장부 표",
+      "빨간 펜은 정가·마감·감액에만, 파란 펜은 아낀 값과 자격에만",
+      "합계는 3px 이중 밑줄 위에, 최저가는 파란 펜 숫자 하나로",
+      "모든 가격·혜택 행에 원형 확인 도장(목록 46px, 상세 60px), 확인 필요는 점선 원",
+      "글자 크기 세 단계와 숫자 하나, 숫자는 모두 고정폭"
+    ],
+    "rules": [
+      {
+        "name": "The Two Pens Rule",
+        "body": "빨강은 \"덜 내도 되는 돈과 위험\", 파랑은 \"아낀 돈과 내 자격\"만 뜻한다. 장식으로 쓰는 순간 장부가 거짓말을 한다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Seal Is Earned Rule",
+        "body": "도장은 출처에서 확인한 날짜가 있는 숫자에만 찍는다. 60일이 지났거나, 보도·플랫폼 출처이거나, 달러 결제이거나, 공식 페이지 변경이 감지되면 점선 \"확인 필요\"로 내려간다.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Decoration Color Rule",
+        "body": "섹션 구분을 위해 색을 쓰지 않는다. 섹션은 제목과 굵은 잉크 선으로 구분한다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Sizes Rule",
+        "body": "글자 크기는 small·body·title 세 단계와 figure 하나뿐이다. 더 강조하고 싶으면 크기가 아니라 굵기를 올린다.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lines Not Boxes Rule",
+        "body": "정보 묶음은 상자로 감싸지 않고 굵은 선 아래 행으로 적는다. 상자 안에 상자는 없다.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 모든 가격·혜택 행에 확인 도장을 찍는다(목록 46px, 상세 60px).",
+      "Do 금액 묶음은 정산표로: 항목 줄 → 비교 줄 → 이중 밑줄 합계.",
+      "Do 목록은 칸 제목 + 2px 잉크 선 아래, 1px 선으로 나눈 행으로 만든다.",
+      "Do 표의 열 배치는 표가 놓인 칸의 너비로 정한다.",
+      "Do 상태를 색과 모양 둘 다로 표시한다(채운/빈 원, 실선/점선).",
+      "Do 맞춤 결과가 비면 빈 화면 대신 \"조건을 갖추면 받아요\"로 이어서 보여준다."
+    ],
+    "donts": [
+      "Don't 카드 격자에 큰 숫자·작은 라벨을 띄우는 할인 앱 기본형으로 만들지 않는다.",
+      "Don't 둥근 흰 상자와 알약 칩을 반복해 화면을 채우지 않는다.",
+      "Don't 섹션을 파스텔 색 조각이나 색 막대로 구분하지 않는다.",
+      "Don't 쿠폰·광고 사이트처럼 배너와 강조색을 늘어놓지 않는다.",
+      "Don't 아이콘·이모지로 장식하거나 손글씨 글꼴을 쓰지 않는다.",
+      "Don't 제목 위에 작은 꼬리표(eyebrow) 문구를 붙이지 않는다.",
+      "Don't 그림자, 유리·블러 효과, 그라디언트 글자를 쓰지 않는다.",
+      "Don't 확인하지 않은 숫자에 실선 도장을 찍지 않는다."
+    ]
+  }
+}

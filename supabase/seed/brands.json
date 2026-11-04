@@ -1,0 +1,479 @@
+[
+  {
+    "id": "skt",
+    "kind": "telecom",
+    "category": null,
+    "name": "SKT",
+    "aliases": [
+      "SKT",
+      "SK텔레콤",
+      "T 멤버십",
+      "T멤버십",
+      "T우주",
+      "T 우주"
+    ],
+    "official_domains": [
+      "sktmembership.tworld.co.kr",
+      "tworld.co.kr",
+      "sktuniverse.co.kr"
+    ],
+    "homepage": "https://www.tworld.co.kr",
+    "sort_order": 1
+  },
+  {
+    "id": "kt",
+    "kind": "telecom",
+    "category": null,
+    "name": "KT",
+    "aliases": [
+      "KT",
+      "케이티",
+      "KT 멤버십",
+      "KT멤버십"
+    ],
+    "official_domains": [
+      "kt.com",
+      "membership.kt.com",
+      "shop.kt.com"
+    ],
+    "homepage": "https://www.kt.com",
+    "sort_order": 2
+  },
+  {
+    "id": "lgu",
+    "kind": "telecom",
+    "category": null,
+    "name": "LG U+",
+    "aliases": [
+      "LG U+",
+      "LGU+",
+      "LG유플러스",
+      "유플러스",
+      "U+"
+    ],
+    "official_domains": [
+      "lguplus.com"
+    ],
+    "homepage": "https://www.lguplus.com",
+    "sort_order": 3
+  },
+  {
+    "id": "shinhan",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "신한카드",
+    "aliases": [
+      "신한카드",
+      "신한 카드"
+    ],
+    "official_domains": [
+      "shinhancard.com"
+    ],
+    "homepage": "https://www.shinhancard.com",
+    "sort_order": 1
+  },
+  {
+    "id": "samsungcard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "삼성카드",
+    "aliases": [
+      "삼성카드"
+    ],
+    "official_domains": [
+      "samsungcard.com"
+    ],
+    "homepage": "https://www.samsungcard.com",
+    "sort_order": 2
+  },
+  {
+    "id": "hyundaicard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "현대카드",
+    "aliases": [
+      "현대카드"
+    ],
+    "official_domains": [
+      "hyundaicard.com"
+    ],
+    "homepage": "https://www.hyundaicard.com",
+    "sort_order": 3
+  },
+  {
+    "id": "kbcard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "KB국민카드",
+    "aliases": [
+      "KB국민카드",
+      "국민카드",
+      "KB카드"
+    ],
+    "official_domains": [
+      "kbcard.com"
+    ],
+    "homepage": "https://card.kbcard.com",
+    "sort_order": 4
+  },
+  {
+    "id": "lottecard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "롯데카드",
+    "aliases": [
+      "롯데카드"
+    ],
+    "official_domains": [
+      "lottecard.co.kr"
+    ],
+    "homepage": "https://www.lottecard.co.kr",
+    "sort_order": 5
+  },
+  {
+    "id": "hanacard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "하나카드",
+    "aliases": [
+      "하나카드"
+    ],
+    "official_domains": [
+      "hanacard.co.kr"
+    ],
+    "homepage": "https://www.hanacard.co.kr",
+    "sort_order": 6
+  },
+  {
+    "id": "wooricard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "우리카드",
+    "aliases": [
+      "우리카드"
+    ],
+    "official_domains": [
+      "wooricard.com"
+    ],
+    "homepage": "https://pc.wooricard.com",
+    "sort_order": 7
+  },
+  {
+    "id": "bccard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "BC카드",
+    "aliases": [
+      "BC카드",
+      "비씨카드"
+    ],
+    "official_domains": [
+      "bccard.com"
+    ],
+    "homepage": "https://www.bccard.com",
+    "sort_order": 8
+  },
+  {
+    "id": "nhcard",
+    "kind": "card_issuer",
+    "category": null,
+    "name": "NH농협카드",
+    "aliases": [
+      "NH농협카드",
+      "농협카드"
+    ],
+    "official_domains": [
+      "card.nonghyup.com"
+    ],
+    "homepage": "https://card.nonghyup.com",
+    "sort_order": 9
+  },
+  {
+    "id": "naverpay",
+    "kind": "pay",
+    "category": null,
+    "name": "네이버페이",
+    "aliases": [
+      "네이버페이",
+      "N페이",
+      "Npay"
+    ],
+    "official_domains": [
+      "pay.naver.com"
+    ],
+    "homepage": "https://pay.naver.com",
+    "sort_order": 1
+  },
+  {
+    "id": "kakaopay",
+    "kind": "pay",
+    "category": null,
+    "name": "카카오페이",
+    "aliases": [
+      "카카오페이"
+    ],
+    "official_domains": [
+      "kakaopay.com"
+    ],
+    "homepage": "https://www.kakaopay.com",
+    "sort_order": 2
+  },
+  {
+    "id": "tosspay",
+    "kind": "pay",
+    "category": null,
+    "name": "토스페이",
+    "aliases": [
+      "토스페이",
+      "토스 페이"
+    ],
+    "official_domains": [
+      "toss.im",
+      "tosspayments.com"
+    ],
+    "homepage": "https://toss.im",
+    "sort_order": 3
+  },
+  {
+    "id": "naverplus",
+    "kind": "platform",
+    "category": "etc",
+    "name": "네이버플러스 멤버십",
+    "aliases": [
+      "네이버플러스",
+      "네이버 플러스 멤버십",
+      "네플멤"
+    ],
+    "official_domains": [
+      "naver.com"
+    ],
+    "homepage": "https://nid.naver.com/membership/join",
+    "sort_order": 1
+  },
+  {
+    "id": "coupangwow",
+    "kind": "platform",
+    "category": "delivery",
+    "name": "쿠팡 와우 멤버십",
+    "aliases": [
+      "쿠팡 와우",
+      "와우 멤버십",
+      "와우멤버십",
+      "쿠팡와우"
+    ],
+    "official_domains": [
+      "coupang.com"
+    ],
+    "homepage": "https://www.coupang.com",
+    "sort_order": 2
+  },
+  {
+    "id": "baeminclub",
+    "kind": "platform",
+    "category": "delivery",
+    "name": "배민클럽",
+    "aliases": [
+      "배민클럽",
+      "배민 클럽"
+    ],
+    "official_domains": [
+      "baemin.com",
+      "woowahan.com"
+    ],
+    "homepage": "https://www.baemin.com",
+    "sort_order": 3
+  },
+  {
+    "id": "yogipass",
+    "kind": "platform",
+    "category": "delivery",
+    "name": "요기패스X",
+    "aliases": [
+      "요기패스",
+      "요기요 멤버십"
+    ],
+    "official_domains": [
+      "yogiyo.co.kr"
+    ],
+    "homepage": "https://www.yogiyo.co.kr",
+    "sort_order": 4
+  },
+  {
+    "id": "netflix",
+    "kind": "service",
+    "category": "ott",
+    "name": "넷플릭스",
+    "aliases": [
+      "넷플릭스",
+      "Netflix"
+    ],
+    "official_domains": [
+      "netflix.com",
+      "help.netflix.com"
+    ],
+    "homepage": "https://www.netflix.com/kr/",
+    "sort_order": 1
+  },
+  {
+    "id": "tving",
+    "kind": "service",
+    "category": "ott",
+    "name": "티빙",
+    "aliases": [
+      "티빙",
+      "TVING"
+    ],
+    "official_domains": [
+      "tving.com"
+    ],
+    "homepage": "https://www.tving.com",
+    "sort_order": 2
+  },
+  {
+    "id": "wavve",
+    "kind": "service",
+    "category": "ott",
+    "name": "웨이브",
+    "aliases": [
+      "웨이브(wavve)",
+      "wavve",
+      "Wavve"
+    ],
+    "official_domains": [
+      "wavve.com"
+    ],
+    "homepage": "https://www.wavve.com",
+    "sort_order": 3
+  },
+  {
+    "id": "disney",
+    "kind": "service",
+    "category": "ott",
+    "name": "디즈니+",
+    "aliases": [
+      "디즈니+",
+      "디즈니플러스",
+      "디즈니 플러스",
+      "Disney+"
+    ],
+    "official_domains": [
+      "disneyplus.com"
+    ],
+    "homepage": "https://www.disneyplus.com/ko-kr",
+    "sort_order": 4
+  },
+  {
+    "id": "coupangplay",
+    "kind": "service",
+    "category": "ott",
+    "name": "쿠팡플레이",
+    "aliases": [
+      "쿠팡플레이",
+      "쿠팡 플레이"
+    ],
+    "official_domains": [
+      "coupangplay.com"
+    ],
+    "homepage": "https://www.coupangplay.com",
+    "sort_order": 5
+  },
+  {
+    "id": "youtube",
+    "kind": "service",
+    "category": "ott",
+    "name": "유튜브 프리미엄",
+    "aliases": [
+      "유튜브 프리미엄",
+      "유튜브프리미엄",
+      "YouTube Premium",
+      "유튜브 뮤직"
+    ],
+    "official_domains": [
+      "youtube.com"
+    ],
+    "homepage": "https://www.youtube.com/premium",
+    "sort_order": 6
+  },
+  {
+    "id": "chatgpt",
+    "kind": "service",
+    "category": "ai",
+    "name": "ChatGPT",
+    "aliases": [
+      "ChatGPT",
+      "챗GPT",
+      "챗지피티"
+    ],
+    "official_domains": [
+      "openai.com",
+      "chatgpt.com"
+    ],
+    "homepage": "https://chatgpt.com/pricing",
+    "sort_order": 1
+  },
+  {
+    "id": "claude",
+    "kind": "service",
+    "category": "ai",
+    "name": "Claude",
+    "aliases": [
+      "Claude",
+      "클로드"
+    ],
+    "official_domains": [
+      "claude.com",
+      "anthropic.com"
+    ],
+    "homepage": "https://claude.com/pricing",
+    "sort_order": 2
+  },
+  {
+    "id": "gemini",
+    "kind": "service",
+    "category": "ai",
+    "name": "Gemini (Google AI)",
+    "aliases": [
+      "Gemini",
+      "제미나이",
+      "Google AI Pro",
+      "구글 AI 프로",
+      "구글 AI Pro"
+    ],
+    "official_domains": [
+      "one.google.com",
+      "gemini.google.com"
+    ],
+    "homepage": "https://one.google.com/about/ai-premium",
+    "sort_order": 3
+  },
+  {
+    "id": "perplexity",
+    "kind": "service",
+    "category": "ai",
+    "name": "Perplexity",
+    "aliases": [
+      "Perplexity",
+      "퍼플렉시티"
+    ],
+    "official_domains": [
+      "perplexity.ai"
+    ],
+    "homepage": "https://www.perplexity.ai/pro",
+    "sort_order": 4
+  },
+  {
+    "id": "spotify",
+    "kind": "service",
+    "category": "etc",
+    "name": "스포티파이",
+    "aliases": [
+      "스포티파이",
+      "Spotify"
+    ],
+    "official_domains": [
+      "spotify.com"
+    ],
+    "homepage": "https://www.spotify.com/kr-ko/premium/",
+    "sort_order": 2
+  }
+]
