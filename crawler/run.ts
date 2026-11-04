@@ -63,4 +63,11 @@ for (const a of adapters) {
   console.log(`[${a.id}] ${status} ${count}건`);
 }
 
+// 기간이 지난 딜은 소스와 상관없이 내린다 (수동 등록 딜은 크롤러가 다시 저장하지 않으므로). 날짜는 한국 시간 기준
+if (db) {
+  const today = new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10);
+  const { data } = await db.from("deals").update({ is_active: false }).eq("is_active", true).lt("ends_at", today).select("id");
+  console.log(`기간 끝난 딜 ${data?.length ?? 0}건 내림`);
+}
+
 if (db && !only) await runWatch(db);
