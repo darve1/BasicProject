@@ -23,21 +23,13 @@ npm run dev                  # http://localhost:3000
 
 | 명령 | 하는 일 |
 |---|---|
-| `npm run crawl` | SKT T 멤버십, LG U+, 현대카드, KB국민카드 수집 → 태깅 → 저장, 안 보인 딜·기간 끝난 딜 비활성화, 실행 기록 |
+| `npm run crawl` | SKT T 멤버십, LG U+, 현대카드, KB국민카드 수집 → 태깅 → 저장, 안 보인 딜 비활성화, 실행 기록 |
 | `npm run crawl -- --source kb-events --dry-run` | 한 소스만, DB에 쓰지 않고 결과만 출력 |
 | `npm run seed` | `scripts/catalog.ts`(요금제·카드·수동 딜)와 `supabase/seed/*.json` 적재. 가격을 고치면 다시 실행 |
 | `npm run check` | RLS, 익명 접근 범위, 맞춤 매칭 함수 점검 |
 | `npm run artifact` | 프로덕션 빌드 후 실사용 모드 아티팩트 `.artifact/index.html`을 만든다. 공개 카탈로그만 담고, 화면은 실제 사이트의 뷰 컴포넌트(`components/views`)를 브라우저에서 그린다. 보는 사람의 조건은 아티팩트의 개인 저장소(로그인 시) 또는 브라우저에 저장 |
 | `npm run demo-link` | 시연용 계정의 1회용 로그인 링크 출력 (메일 발송 없이). 화면 공유 중에는 실행하지 말 것 |
 | `npm test` | 조합 계산·파서·태깅·robots.txt 단위 테스트 |
-
-## 매일 자동 갱신
-
-`.github/workflows/daily-crawl.yml`이 매일 한국 시간 06:17에 `crawler/run.ts`를 실행한다(수집 → 기간 끝난 딜 내리기 → 공식 페이지 변경 감지). 사이트는 DB를 바로 읽으므로 따로 배포하지 않아도 반영된다.
-
-- 저장소 Settings → Secrets and variables → Actions에 `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`가 있어야 돈다
-- Actions 탭의 daily-crawl → Run workflow로 바로 실행할 수 있다
-- 아티팩트는 페이지 안에 데이터를 담는 방식이라 `npm run artifact` 후 다시 올려야 바뀐다
 
 ## 수집 원칙
 
