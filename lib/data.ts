@@ -1,5 +1,6 @@
 // 서버 전용 데이터 접근. 페이지는 여기 함수만 쓴다
 import "server-only";
+import { searchDeals } from "./deal-search";
 import { eligibilityTags } from "./eligibility";
 import { createClient } from "./supabase/server";
 import type { Brand, Card, Deal, DealType, Plan, Source } from "./types";
@@ -10,6 +11,7 @@ export type Viewer = {
   ageBand: string | null;
   roles: string[];
   services: string[]; // 쓰는(쓰려는) 구독
+  tiers: Record<string, string>; // 지금 쓰는 요금제 등급 (서비스 id → 등급). 없는 구독은 아무 등급
   brandIds: string[];
   elig: string[];
   hasProfile: boolean;
@@ -20,9 +22,9 @@ export async function getViewer(): Promise<Viewer> {
   const {
     data: { user },
   } = await db.auth.getUser();
-  if (!user) return { userId: null, email: null, ageBand: null, roles: [], services: [], brandIds: [], elig: [], hasProfile: false };
+  if (!user) return { userId: null, email: null, ageBand: null, roles: [], services: [], tiers: {}, brandIds: [], elig: [], hasProfile: false };
   const [{ data: profile }, { data: owned }] = await Promise.all([
-    db.from("user_profiles").select("age_band, roles, services").eq("user_id", user.id).maybeSingle(),
+    db.from("user_profiles").select("*").eq("user_id", user.id).maybeSingle(), // 칸 이름을 적지 않는다: service_tiers 칸이 아직 없는 DB에서도 읽히게
     db.from("user_brands").select("brand_id").eq("user_id", user.id),
   ]);
   const brandIds = (owned ?? []).map((r) => r.brand_id as string);
@@ -34,6 +36,7 @@ export async function getViewer(): Promise<Viewer> {
     ageBand,
     roles,
     services: (profile?.services as string[] | undefined) ?? [],
+    tiers: (profile?.service_tiers as Record<string, string> | undefined) ?? {},
     brandIds,
     elig: eligibilityTags(ageBand, roles),
     hasProfile: Boolean(profile) || brandIds.length > 0,
@@ -85,13 +88,16 @@ export async function getDeals(viewer: Viewer | null, query: DealQuery = {}): Pr
   if (query.type) req = req.eq("deal_type", query.type);
   if (query.category) req = req.eq("category", query.category);
   if (query.subscriptionOnly) req = req.eq("category", "subscription");
-  if (query.q) req = req.or(`title.ilike.%${query.q.replace(/[%,()]/g, "")}%,merchant.ilike.%${query.q.replace(/[%,()]/g, "")}%`);
   req =
     query.sort === "new"
       ? req.order("first_seen_at", { ascending: false })
       : req.order("ends_at", { ascending: true, nullsFirst: false });
-  const { data } = await req.limit(query.limit ?? 300);
-  return (data ?? []) as Deal[];
+  const limit = query.limit ?? 300;
+  if (!query.q) return ((await req.limit(limit)).data ?? []) as Deal[];
+  // 검색어는 별칭·분류·자격 낱말까지 읽어야 해서 DB의 ilike 대신 lib/deal-search로 거른다 (아티팩트와 같은 규칙).
+  // 한 종류의 딜은 수백 건이라 먼저 가져와서 거른다
+  const [{ data }, brands] = await Promise.all([req.limit(1000), getBrands()]);
+  return searchDeals((data ?? []) as Deal[], query.q, brands).slice(0, limit);
 }
 
 export async function countDeals(viewer: Viewer | null): Promise<{ total: number; mine: number | null }> {

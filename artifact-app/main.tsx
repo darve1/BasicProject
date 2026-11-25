@@ -17,7 +17,7 @@ import type { Viewer } from "@/lib/data";
 import { AGE_BANDS, eligibilityTags, ROLES } from "@/lib/eligibility";
 import { canGet } from "@/lib/match";
 import type { Brand, Card, Deal, DealCategory, DealType, Plan, ServiceCategory, Source } from "@/lib/types";
-import { conditionLabels } from "@/lib/viewer";
+import { conditionLabels, tiersFromForm } from "@/lib/viewer";
 import { loadLocal, loadRemote, normalize, remoteProfile, saveProfile, type Profile } from "./profile-store";
 import Link, { fromToken, RouterContext, toToken } from "./router";
 
@@ -27,13 +27,14 @@ const catalog = JSON.parse(document.getElementById("ledger-data")!.textContent!)
 const active = catalog.deals.filter((d) => d.is_active);
 
 function toViewer(p: Profile | null): Viewer {
-  const prof = p ?? { brandIds: [], ageBand: null, roles: [], services: [] };
+  const prof = p ?? { brandIds: [], ageBand: null, roles: [], services: [], tiers: {} };
   return {
     userId: "this-browser",
     email: null,
     ageBand: prof.ageBand,
     roles: prof.roles,
     services: prof.services,
+    tiers: prof.tiers,
     brandIds: prof.brandIds,
     elig: eligibilityTags(prof.ageBand, prof.roles),
     hasProfile: p !== null,
@@ -93,11 +94,13 @@ function App() {
   // 서버 사이트와 같은 모양으로 FormData를 읽어 저장한다
   const save = useCallback(async (_: FormState, form: FormData): Promise<FormState> => {
     const ageBand = String(form.get("age_band") ?? "");
+    const services = [...new Set(form.getAll("services").map(String))].filter((b) => BRAND_IDS.has(b));
     const next: Profile = normalize({
       ageBand: BAND_IDS.has(ageBand) ? ageBand : null,
       roles: form.getAll("roles").map(String).filter((r) => ROLE_IDS.has(r)),
       brandIds: [...new Set(form.getAll("brands").map(String))].filter((b) => BRAND_IDS.has(b)),
-      services: [...new Set(form.getAll("services").map(String))].filter((b) => BRAND_IDS.has(b)),
+      services,
+      tiers: tiersFromForm(form, services),
     });
     setProfile(next);
     const where = await saveProfile(next);
@@ -146,7 +149,7 @@ function App() {
         query={q}
         viewer={viewer}
         brands={catalog.brands}
-        all={queryDeals(active, seg[1] as DealType, q)}
+        all={queryDeals(active, seg[1] as DealType, q, catalog.brands)}
         sources={catalog.sources}
         conditionHref={conditionHref}
       />
@@ -163,6 +166,8 @@ function App() {
         brands={catalog.brands}
         save={save}
         storageNote={accountStore ? "claude.ai 계정에 나만 볼 수 있게 저장돼요." : "이 브라우저에 저장돼요. 로그인 없이 쓸 수 있어요."}
+        deals={active}
+        plans={catalog.plans}
       />
     );
   } else {

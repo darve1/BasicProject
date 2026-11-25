@@ -5,6 +5,7 @@ import { baseline, listPrice, recommendCards, solve, type Combo, type ComboItem 
 import { ROUTE_LABEL, SERVICE_CATEGORY_LABEL, sourceName, won } from "@/lib/format";
 import type { Brand, Card, Plan, ServiceCategory } from "@/lib/types";
 import { Correction, Seal } from "./marks";
+import { TierRows } from "./tier-rows";
 
 export type CalculatorData = {
   services: Brand[]; // category가 있는 브랜드(구독 서비스·멤버십)
@@ -15,6 +16,7 @@ export type CalculatorData = {
   brands: Brand[];
   owned: string[];
   elig: string[];
+  tiers?: Record<string, string>; // 내 조건에 적어 둔 "지금 쓰는 요금제"
 };
 
 // home: 홈의 펼친 장부(카드 한 장, 자세한 비교는 계산기 화면으로). full: 계산기 화면(카드 세 장, 다른 조합, 근거)
@@ -41,19 +43,28 @@ export function Calculator(props: Props) {
     ],
     [props.owned, props.telecoms, props.memberships, telecom, members],
   );
-  const input = { wanted, owned, elig: props.elig, allowAds, includeAnnual };
-  const result = useMemo(() => solve(plans, input), [plans, wanted, owned, props.elig, allowAds, includeAnnual]); // eslint-disable-line react-hooks/exhaustive-deps
-  const base = useMemo(() => baseline(plans, input), [plans, wanted, allowAds]); // eslint-disable-line react-hooks/exhaustive-deps
+  // 지금 쓰는 요금제(등급)를 적은 구독은 그 등급으로만 견준다. 안 적은 구독은 아무 등급
+  const [tiers, setTiers] = useState<Record<string, string>>(props.tiers ?? {});
+  const input = { wanted, owned, elig: props.elig, allowAds, includeAnnual, tiers };
+  const result = useMemo(() => solve(plans, input), [plans, wanted, owned, props.elig, allowAds, includeAnnual, tiers]); // eslint-disable-line react-hooks/exhaustive-deps
+  const base = useMemo(() => baseline(plans, input), [plans, wanted, allowAds, tiers]); // eslint-disable-line react-hooks/exhaustive-deps
   const best: Combo | undefined = result.combos[0];
   const picks = best ? recommendCards(cards, best, full ? 3 : 1) : [];
   const toggle = (id: string) => setWanted((w) => (w.includes(id) ? w.filter((x) => x !== id) : [...w, id]));
 
   // 그 항목이 덮는 구독을 본사 단품으로 따로 낼 때보다 얼마나 싼지
   const savedBy = (it: ComboItem) => {
-    const lists = it.covers.map((s) => listPrice(plans, s, allowAds));
+    const lists = it.covers.map((s) => listPrice(plans, s, allowAds, tiers[s]));
     if (lists.some((l) => l == null)) return 0;
     return Math.max(0, (lists as number[]).reduce((a, b) => a + b, 0) - it.price);
   };
+  const setTier = (id: string, tier: string) =>
+    setTiers((t) => {
+      const next = { ...t };
+      if (tier) next[id] = tier;
+      else delete next[id];
+      return next;
+    });
 
   return (
     <section aria-label="조합 계산기" className="@container rounded-[6px] border border-rule bg-sheet">
@@ -93,6 +104,8 @@ export function Calculator(props: Props) {
               })}
             </div>
           </fieldset>
+
+          <TierRows className="mt-5" ids={wanted} plans={plans} name={(id) => name.get(id) ?? id} tiers={tiers} onTier={setTier} allowAds={allowAds} />
 
           <div className="mt-5 grid gap-y-2.5 border-t border-rule pt-4 text-sm">
             <label className="grid grid-cols-[64px_minmax(0,1fr)] items-center gap-2">

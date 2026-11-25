@@ -1,7 +1,7 @@
 // 보는 사람의 조건 저장소.
 // claude.ai에 로그인한 사람: 아티팩트의 사람별 비공개 저장소(data/users/<id>/profile, 본인만 읽고 씀)
 // 그 밖: 이 브라우저(localStorage). 둘 다 안 되면 이번 방문 동안만 기억한다
-export type Profile = { brandIds: string[]; ageBand: string | null; roles: string[]; services: string[] };
+export type Profile = { brandIds: string[]; ageBand: string | null; roles: string[]; services: string[]; tiers: Record<string, string> };
 
 const KEY = "subscription-ledger:profile:v1";
 
@@ -39,6 +39,7 @@ export function normalize(v: unknown): Profile {
     ageBand: typeof o.ageBand === "string" ? o.ageBand : null,
     roles: strings(o.roles),
     services: strings(o.services),
+    tiers: Object.fromEntries(Object.entries((o.tiers ?? {}) as Record<string, unknown>).filter((e): e is [string, string] => typeof e[1] === "string")),
   };
 }
 

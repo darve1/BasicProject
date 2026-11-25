@@ -4,18 +4,22 @@ import type { FormState } from "@/app/actions";
 import { Page, PageHead } from "@/components/ledger";
 import { ProfileForm } from "@/components/profile-form";
 import type { Viewer } from "@/lib/data";
-import type { Brand } from "@/lib/types";
+import type { Brand, Deal, Plan } from "@/lib/types";
 
 export function MyView({
   viewer,
   brands,
   save,
   storageNote,
+  deals,
+  plans,
 }: {
   viewer: Viewer;
   brands: Brand[];
   save: (prev: FormState, form: FormData) => Promise<FormState>;
   storageNote?: string;
+  deals?: Deal[];
+  plans?: Plan[];
 }) {
   return (
     <Page width="narrow">
@@ -32,11 +36,13 @@ export function MyView({
         </div>
       ) : (
         <ProfileForm
-          key={[...viewer.services, ...viewer.brandIds, viewer.ageBand ?? "", ...viewer.roles].join(",")}
+          key={[...viewer.services, ...viewer.brandIds, viewer.ageBand ?? "", ...viewer.roles, JSON.stringify(viewer.tiers)].join(",")}
           brands={brands}
-          initial={{ brandIds: viewer.brandIds, ageBand: viewer.ageBand, roles: viewer.roles, services: viewer.services }}
+          initial={{ brandIds: viewer.brandIds, ageBand: viewer.ageBand, roles: viewer.roles, services: viewer.services, tiers: viewer.tiers }}
           save={save}
           storageNote={storageNote}
+          deals={deals}
+          plans={plans}
         />
       )}
     </Page>

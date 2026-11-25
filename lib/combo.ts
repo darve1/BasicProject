@@ -1,6 +1,6 @@
 // 구독 조합 계산과 카드 추천. DOM·DB에 의존하지 않는 순수 함수만 둔다 (combo.test.ts).
 import { meetsEligibility } from "./eligibility";
-import type { Card, Plan } from "./types";
+import type { Card, Plan, PlanInclude } from "./types";
 
 export type ComboInput = {
   wanted: string[]; // 쓰고 싶은 서비스 brand id
@@ -8,14 +8,26 @@ export type ComboInput = {
   elig: string[]; // 자격 태그 (youth, student ...)
   allowAds: boolean;
   includeAnnual: boolean;
+  tiers?: Record<string, string>; // 서비스별로 꼭 이 등급이어야 할 때 (tierKey 값). 없으면 아무 등급
 };
+
+// 등급을 견줄 때 쓰는 이름. 판매처마다 표기가 달라서("광고형"/"광고형 스탠다드", "프리미엄(뮤직 포함)"/"프리미엄")
+// 광고형은 하나로 보고 괄호 설명은 뗀다
+export function tierKey(i: PlanInclude): string {
+  return i.ads ? "광고형" : (i.tier ?? "").replace(/\(.*?\)/g, "").trim();
+}
+
+// 그 서비스를 이 조건으로 쓸 수 있는 포함 항목인지: 등급을 정했으면 그 등급만, 아니면 광고 허용 여부만 본다
+function fits(i: PlanInclude, serviceId: string, allowAds: boolean, tier?: string): boolean {
+  return i.service_id === serviceId && (tier ? tierKey(i) === tier : allowAds || i.ads !== true);
+}
 
 export type ComboItem = { plan: Plan; price: number; covers: string[] };
 export type Combo = { items: ComboItem[]; total: number };
 
 export function coveredServices(plan: Plan, input: ComboInput): string[] {
   return plan.includes
-    .filter((i) => input.wanted.includes(i.service_id) && (input.allowAds || i.ads !== true))
+    .filter((i) => input.wanted.includes(i.service_id) && fits(i, i.service_id, input.allowAds, input.tiers?.[i.service_id]))
     .map((i) => i.service_id);
 }
 
@@ -31,26 +43,34 @@ export function isAvailable(plan: Plan, input: ComboInput): boolean {
   return meetsEligibility(plan.eligibility, input.elig);
 }
 
-// 본사에서 단품으로 살 때 가장 싼 월 요금 (조건 없는 공식 요금제)
-export function listPrice(plans: Plan[], serviceId: string, allowAds: boolean): number | null {
-  const prices = plans
-    .filter(
-      (p) =>
-        p.route === "official" &&
-        p.billing === "monthly" &&
-        p.seller_brand_id === serviceId &&
-        p.requires_brand_ids.length === 0 &&
-        p.eligibility.length === 0 &&
-        p.includes.some((i) => i.service_id === serviceId && (allowAds || i.ads !== true)),
-    )
+// 본사에서 누구나 월 결제로 살 수 있는 단품 요금제
+const officialSingles = (plans: Plan[], serviceId: string) =>
+  plans.filter(
+    (p) => p.route === "official" && p.billing === "monthly" && p.seller_brand_id === serviceId && p.requires_brand_ids.length === 0 && p.eligibility.length === 0,
+  );
+
+// 본사에서 단품으로 살 때 가장 싼 월 요금 (조건 없는 공식 요금제). 등급을 주면 그 등급의 요금
+export function listPrice(plans: Plan[], serviceId: string, allowAds: boolean, tier?: string): number | null {
+  const prices = officialSingles(plans, serviceId)
+    .filter((p) => p.includes.some((i) => fits(i, serviceId, allowAds, tier)))
     .map((p) => p.price_monthly);
   return prices.length ? Math.min(...prices) : null;
+}
+
+// 그 서비스의 본사 등급 목록(싼 것부터). "지금 쓰는 요금제"를 고르는 데 쓴다
+export function tierOptions(plans: Plan[], serviceId: string): { tier: string; label: string; price: number }[] {
+  const out = new Map<string, { tier: string; label: string; price: number }>();
+  for (const p of officialSingles(plans, serviceId).sort((a, b) => a.price_monthly - b.price_monthly)) {
+    const i = p.includes.find((x) => x.service_id === serviceId);
+    if (i && tierKey(i) && !out.has(tierKey(i))) out.set(tierKey(i), { tier: tierKey(i), label: i.tier ?? tierKey(i), price: p.price_monthly });
+  }
+  return [...out.values()];
 }
 
 export function baseline(plans: Plan[], input: ComboInput): number | null {
   let sum = 0;
   for (const w of input.wanted) {
-    const p = listPrice(plans, w, input.allowAds);
+    const p = listPrice(plans, w, input.allowAds, input.tiers?.[w]);
     if (p == null) return null;
     sum += p;
   }
