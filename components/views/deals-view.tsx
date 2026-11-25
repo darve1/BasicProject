@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DealTable } from "@/components/deal-row";
 import { Page, PageHead, SectionHead, TextTabs } from "@/components/ledger";
 import type { Viewer } from "@/lib/data";
+import { searchDeals } from "@/lib/deal-search";
 import { DEAL_CATEGORY_LABEL, DEAL_TYPE_LABEL } from "@/lib/format";
 import { canGet } from "@/lib/match";
 import type { Brand, Deal, DealCategory, DealType, Source } from "@/lib/types";
@@ -18,15 +19,12 @@ const NOTE: Record<DealType, string> = {
 
 export type DealsQuery = { category?: DealCategory; q: string; sort: "ending" | "new" };
 
-// 서버의 getDeals와 같은 규칙으로 메모리 안에서 거른다 (아티팩트용)
-export function queryDeals(deals: Deal[], type: DealType, { category, q, sort }: DealsQuery): Deal[] {
-  const needle = q.toLowerCase();
-  const out = deals.filter(
-    (d) =>
-      d.is_active &&
-      d.deal_type === type &&
-      (!category || d.category === category) &&
-      (!needle || d.title.toLowerCase().includes(needle) || (d.merchant ?? "").toLowerCase().includes(needle)),
+// 서버의 getDeals와 같은 규칙으로 메모리 안에서 거른다 (아티팩트용). 검색어 해석은 둘 다 lib/deal-search를 쓴다
+export function queryDeals(deals: Deal[], type: DealType, { category, q, sort }: DealsQuery, brands: Brand[]): Deal[] {
+  const out = searchDeals(
+    deals.filter((d) => d.is_active && d.deal_type === type && (!category || d.category === category)),
+    q,
+    brands,
   );
   return sort === "new"
     ? out.sort((a, b) => b.first_seen_at.localeCompare(a.first_seen_at))

@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AGE_BANDS, ROLES } from "@/lib/eligibility";
 import { createClient } from "@/lib/supabase/server";
+import { tiersFromForm } from "@/lib/viewer";
 
 export type FormState = { ok: boolean; message: string } | null;
 
@@ -46,9 +47,10 @@ export async function saveProfile(_: FormState, form: FormData): Promise<FormSta
   const brandIds = [...new Set(form.getAll("brands").map(String))];
   const services = [...new Set(form.getAll("services").map(String))];
 
-  const { error: pErr } = await db
-    .from("user_profiles")
-    .upsert({ user_id: user.id, age_band: BAND_IDS.has(ageBand) ? ageBand : null, roles, services, updated_at: new Date().toISOString() });
+  const row = { user_id: user.id, age_band: BAND_IDS.has(ageBand) ? ageBand : null, roles, services, updated_at: new Date().toISOString() };
+  let { error: pErr } = await db.from("user_profiles").upsert({ ...row, service_tiers: tiersFromForm(form, services) });
+  // service_tiers 칸을 아직 만들지 않은 DB(0003 마이그레이션 전)에서는 나머지 조건만이라도 저장한다
+  if (pErr && /service_tiers/.test(pErr.message)) ({ error: pErr } = await db.from("user_profiles").upsert(row));
   if (pErr) return { ok: false, message: "저장하지 못했어요. 다시 시도해 주세요." };
 
   const { error: dErr } = await db.from("user_brands").delete().eq("user_id", user.id);
