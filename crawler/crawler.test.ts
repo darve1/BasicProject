@@ -9,6 +9,7 @@ import { parseKbList } from "./sources/kb";
 import { parseLguList } from "./sources/lgu";
 import { parseSktList } from "./sources/skt";
 import { parsePeriod, tagDeal } from "./tagging";
+import { hashSection, priceShown, sectionText } from "./watch";
 
 const fixture = (f: string) => readFileSync(join(__dirname, "__fixtures__", f), "utf8");
 
@@ -122,5 +123,29 @@ describe("조건 판단 보정", () => {
   });
   it("만18세~29세 같은 범위 표현도 청년", () => {
     expect(tagDeal("체크 신규하면 3만원 만18세~29세 유스클럽", "skt", BRANDS).eligibility).toEqual(["youth"]);
+  });
+});
+
+describe("페이지 감시: 바뀐 본문에 가격이 그대로 적혀 있는지", () => {
+  const filler = "<p>" + "넷플릭스 이용 안내 문구입니다. ".repeat(20) + "</p>";
+  const page = (banner: string, premium = "17,000") => `<html><body><div id="notice">${banner}</div><main>
+    <h2>넷플릭스 멤버십과 요금</h2>${filler}
+    <ul><li>광고형 스탠다드: 월 7,000원</li>${filler}<li>스탠다드: 월 13,500원</li>${filler}<li>프리미엄: 월 ${premium}원</li></ul></main></body></html>`;
+  const text = sectionText(page("11월 안내"), "main");
+
+  it("감시 영역 밖이 바뀌면 해시가 같고, 영역 안이 바뀌면 달라짐", () => {
+    expect(hashSection(page("12월 안내"), "main")).toBe(hashSection(page("11월 안내"), "main"));
+    expect(hashSection(page("11월 안내", "19,000"), "main")).not.toBe(hashSection(page("11월 안내"), "main"));
+  });
+  it("요금제 이름 바로 뒤에 지금 가격이 있으면 그대로", () => {
+    expect(priceShown(text, 7000, "넷플릭스 광고형 스탠다드")).toBe(true);
+    expect(priceShown(text, 13500, "넷플릭스 스탠다드")).toBe(true);
+    expect(priceShown(text, 17000, "넷플릭스 프리미엄")).toBe(true);
+  });
+  it("가격이 사라졌거나 다른 요금제의 가격이면 아님", () => {
+    expect(priceShown(sectionText(page("", "19,000"), "main"), 17000, "넷플릭스 프리미엄")).toBe(false);
+    expect(priceShown(text, 13500, "넷플릭스 프리미엄")).toBe(false); // 13,500원은 스탠다드 옆에 있다
+    expect(priceShown(text, 0, "쿠팡플레이 무료")).toBe(false); // 무료는 금액으로 확인할 수 없어 예전처럼 사람이 본다
+    expect(priceShown(text, 13500, "넷플릭스 광고형 스탠다드")).toBe(false); // "스탠다드"만 가까이 있고 "광고형"은 멀다. 낱말 둘이 같이 있어야 한다
   });
 });

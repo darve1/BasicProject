@@ -78,8 +78,8 @@ const inc = (service_id: string, tier?: string, ads?: boolean): PlanInclude => (
 const PLAN_LIST = [
   // 넷플릭스 (공식 도움말 페이지에서 확인)
   p({ id: "netflix-ads", name: "넷플릭스 광고형 스탠다드", seller_brand_id: "netflix", route: "official", price_monthly: 7000, includes: [inc("netflix", "광고형 스탠다드", true)], exclusive_group: "netflix", source_url: URL.netflix, source_trust: "official", watch_url: URL.netflix }),
-  p({ id: "netflix-standard", name: "넷플릭스 스탠다드", seller_brand_id: "netflix", route: "official", price_monthly: 13500, includes: [inc("netflix", "스탠다드", false)], exclusive_group: "netflix", source_url: URL.netflix, source_trust: "official" }),
-  p({ id: "netflix-premium", name: "넷플릭스 프리미엄", seller_brand_id: "netflix", route: "official", price_monthly: 17000, includes: [inc("netflix", "프리미엄", false)], exclusive_group: "netflix", source_url: URL.netflix, source_trust: "official" }),
+  p({ id: "netflix-standard", name: "넷플릭스 스탠다드", seller_brand_id: "netflix", route: "official", price_monthly: 13500, includes: [inc("netflix", "스탠다드", false)], exclusive_group: "netflix", source_url: URL.netflix, source_trust: "official", watch_url: URL.netflix }),
+  p({ id: "netflix-premium", name: "넷플릭스 프리미엄", seller_brand_id: "netflix", route: "official", price_monthly: 17000, includes: [inc("netflix", "프리미엄", false)], exclusive_group: "netflix", source_url: URL.netflix, source_trust: "official", watch_url: URL.netflix }),
 
   // 티빙 (공식 이용권 페이지). '기간 한정' 표기는 2027-01-31까지
   p({ id: "tving-ads", name: "티빙 광고형 스탠다드", seller_brand_id: "tving", route: "official", price_monthly: 5500, includes: [inc("tving", "광고형 스탠다드", true)], exclusive_group: "tving", conditions: ["기간 한정 표기(2026-10-06~2027-01-31)"], source_url: URL.tving, source_trust: "official" }),
