@@ -9,21 +9,26 @@ import { build, type Plugin } from "esbuild";
 const root = process.cwd();
 
 // 1) 공개 카탈로그: 일반 방문자 키(publishable)로 읽어서, 공개되는 데이터만 들어가게 한다
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, { auth: { persistSession: false } });
-const pick = async <T,>(q: PromiseLike<{ data: T | null; error: { message: string } | null }>) => {
-  const { data, error } = await q;
-  if (error) throw new Error(error.message);
-  return data as T;
-};
-const [brands, plans, cards, deals, sources] = await Promise.all([
-  pick(db.from("brands").select("*").order("sort_order")),
-  pick(db.from("plans").select("*").order("price_monthly")),
-  pick(db.from("cards").select("*")),
-  pick(db.from("deals").select("*, deal_requirements(brand_id)").eq("is_active", true).order("ends_at", { ascending: true, nullsFirst: false }).limit(2000)),
-  pick(db.from("sources").select("*").order("mode").order("id")),
-]);
-const catalog = { generatedAt: new Date().toISOString(), brands, plans, cards, deals, sources };
-console.log(`카탈로그: 브랜드 ${(brands as unknown[]).length}, 요금제 ${(plans as unknown[]).length}, 카드 ${(cards as unknown[]).length}, 할인 ${(deals as unknown[]).length}`);
+async function fromDb() {
+  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, { auth: { persistSession: false } });
+  const pick = async <T,>(q: PromiseLike<{ data: T | null; error: { message: string } | null }>) => {
+    const { data, error } = await q;
+    if (error) throw new Error(error.message);
+    return data as T;
+  };
+  const [brands, plans, cards, deals, sources] = await Promise.all([
+    pick(db.from("brands").select("*").order("sort_order")),
+    pick(db.from("plans").select("*").order("price_monthly")),
+    pick(db.from("cards").select("*")),
+    pick(db.from("deals").select("*, deal_requirements(brand_id)").eq("is_active", true).order("ends_at", { ascending: true, nullsFirst: false }).limit(2000)),
+    pick(db.from("sources").select("*").order("mode").order("id")),
+  ]);
+  return { generatedAt: new Date().toISOString(), brands, plans, cards, deals, sources };
+}
+// CATALOG_JSON=파일 이면 DB 대신 그 파일의 카탈로그를 쓴다 (DB 키 없이 화면만 미리 볼 때. 올리는 용도가 아니다)
+const catalog: Record<string, unknown> = process.env.CATALOG_JSON ? JSON.parse(readFileSync(process.env.CATALOG_JSON, "utf8")) : await fromDb();
+const size = (k: string) => (catalog[k] as unknown[]).length;
+console.log(`카탈로그: 브랜드 ${size("brands")}, 요금제 ${size("plans")}, 카드 ${size("cards")}, 할인 ${size("deals")}`);
 
 // 2) CSS와 글꼴: next build 결과에서. 글꼴은 data URI로 넣는다 (아티팩트는 외부 글꼴 호스트를 막는다)
 const cssFiles: string[] = [];
